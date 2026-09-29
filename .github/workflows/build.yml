@@ -1,0 +1,66 @@
+name: 일정 갱신
+
+on:
+  schedule:
+    # 평일 새벽. 조간 브리핑(현지 08:00)보다 앞서야 그날 링크가 최신이다.
+    # 05:20 UTC = 여름 07:20 / 겨울 06:20 현지.
+    #
+    # 공개 저장소라 GitHub 예약이 비공개만큼 밀리지는 않는다. 그래도 몇
+    # 시간 늦는 날이 있는데, 한 달 치를 담으므로 하루 늦어도 내용이 크게
+    # 어긋나지 않는다.
+    - cron: "20 5 * * 1-5"
+  workflow_dispatch:
+    inputs:
+      check_only:
+        description: "쓰지 않고 만들어만 본다"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: calendar
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: 의존성 설치
+        run: pip install --quiet -r requirements.txt
+
+      - name: 일정 수집
+        run: python build/make.py ${{ inputs.check_only && '--check' || '' }}
+
+      - name: 되커밋
+        if: ${{ !inputs.check_only }}
+        run: |
+          git config user.name  "calendar-bot"
+          git config user.email "calendar-bot@users.noreply.github.com"
+          git add index.html
+          if git diff --staged --quiet; then
+            echo "일정에 변화가 없다 — 커밋 생략"
+            exit 0
+          fi
+          git commit -m "일정 갱신 $(TZ=Europe/Berlin date +%Y-%m-%d)"
+          for i in 1 2 3; do
+            if git push; then
+              echo "되커밋 완료 (시도 $i)"
+              exit 0
+            fi
+            echo "push 거부됨 — 원격을 받아 얹고 재시도 ($i/3)"
+            git pull --rebase --autostash origin main || exit 1
+            sleep 3
+          done
+          echo "::error::되커밋 실패"
+          exit 1

@@ -1,0 +1,95 @@
+<!doctype html><html lang="ko"><head>
+<meta name="robots" content="noindex, nofollow">
+<meta charset="utf8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>주요 일정</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --bg:#f3f5f8; --surface:#ffffff; --surface-2:#eef1f5;
+  --ink:#101a26; --ink-2:#465264; --muted:#768194;
+  --rule:#dce1e8; --rule-strong:#b9c1cc;
+  --accent:#163f8c; --accent-soft:#e3eaf7;
+  --hot:#b4332f; --hot-soft:#fbe9e8;
+  --sans:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#0e131a; --surface:#151c25; --surface-2:#1c2530;
+    --ink:#edf1f6; --ink-2:#b2bcc9; --muted:#8793a3;
+    --rule:#26303c; --rule-strong:#3a4656;
+    --accent:#8fb0ff; --accent-soft:#1d2a44;
+    --hot:#ef7b76; --hot-soft:#3a2120;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#0e131a; --surface:#151c25; --surface-2:#1c2530;
+  --ink:#edf1f6; --ink-2:#b2bcc9; --muted:#8793a3;
+  --rule:#26303c; --rule-strong:#3a4656;
+  --accent:#8fb0ff; --accent-soft:#1d2a44;
+  --hot:#ef7b76; --hot-soft:#3a2120;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:14.5px;line-height:1.55;margin:0}
+.wrap{max-width:760px;margin:0 auto;padding:0 16px 56px}
+header{padding:26px 0 14px}
+.eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 6px}
+h1{font-size:clamp(22px,5vw,28px);line-height:1.2;font-weight:700;margin:0 0 8px;letter-spacing:-.01em}
+.stamp{font-size:12.5px;color:var(--ink-2)}
+.stamp a{color:var(--accent)}
+
+.day{margin-top:22px}
+.day h2{margin:0 0 8px;font-size:14px;font-weight:600;color:var(--ink-2);
+  display:flex;align-items:baseline;gap:8px;
+  border-bottom:1px solid var(--rule-strong);padding-bottom:6px}
+.day h2 .d{font-family:var(--mono);font-size:16px;font-weight:500;color:var(--ink)}
+.day h2 .w{font-size:12.5px;color:var(--muted)}
+.day.today h2 .d{color:var(--accent)}
+.day.today h2::after{content:"오늘";font-size:11px;font-weight:600;color:var(--accent);
+  background:var(--accent-soft);border-radius:999px;padding:1px 8px;margin-left:auto}
+
+ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+li{background:var(--surface);border:1px solid var(--rule);border-radius:10px;
+  padding:10px 12px;display:flex;gap:10px;align-items:flex-start}
+li.policy{border-color:var(--hot);background:var(--hot-soft)}
+li.major .what{font-weight:600;color:var(--ink)}
+li.major:not(.policy){border-color:var(--rule-strong);box-shadow:inset 3px 0 0 var(--accent)}
+.tag{flex:none;font-family:var(--mono);font-size:10.5px;font-weight:500;letter-spacing:.04em;
+  border-radius:999px;padding:2px 8px;background:var(--surface-2);color:var(--ink-2);
+  white-space:nowrap;margin-top:1px}
+li.policy .tag{background:var(--hot);color:#fff}
+.body{min-width:0}
+.who{font-weight:600}
+.what{color:var(--ink-2)}
+a.src{color:inherit;text-decoration:none}
+a.src:hover .who{text-decoration:underline}
+
+.empty{background:var(--surface);border:1px dashed var(--rule-strong);border-radius:10px;
+  padding:14px;color:var(--muted);text-align:center}
+.note{margin-top:28px;padding-top:16px;border-top:1px solid var(--rule);
+  font-size:12.5px;color:var(--muted);line-height:1.6}
+.note b{color:var(--ink-2)}
+.note ul{display:block;list-style:disc;padding-left:18px;margin:6px 0 0}
+.note li{display:list-item;background:none;border:0;padding:0;color:inherit}
+.warn{margin-top:14px;background:var(--hot-soft);border:1px solid var(--hot);
+  border-radius:10px;padding:10px 12px;font-size:12.5px;color:var(--ink-2)}
+.back{display:inline-block;margin-top:18px;font-size:13px;color:var(--accent);text-decoration:none}
+.back:hover{text-decoration:underline}
+</style></head><body>
+<div class="wrap">
+<header>
+  <p class="eyebrow">Month ahead</p>
+  <h1>향후 1개월 주요 일정</h1>
+  <p class="stamp">__STAMP__</p>
+</header>
+__DAYS__
+__WARN__
+<div class="note">__NOTE__</div>
+<a class="back" href="https://tskang89.github.io/euro-chartpack/">주요국 경제 차트팩 보기 →</a>
+</div>
+</body></html>

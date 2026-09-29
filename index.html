@@ -1,0 +1,134 @@
+<!doctype html><html lang="ko"><head>
+<meta name="robots" content="noindex, nofollow">
+<meta charset="utf8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>주요 일정</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --bg:#f3f5f8; --surface:#ffffff; --surface-2:#eef1f5;
+  --ink:#101a26; --ink-2:#465264; --muted:#768194;
+  --rule:#dce1e8; --rule-strong:#b9c1cc;
+  --accent:#163f8c; --accent-soft:#e3eaf7;
+  --hot:#b4332f; --hot-soft:#fbe9e8;
+  --sans:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#0e131a; --surface:#151c25; --surface-2:#1c2530;
+    --ink:#edf1f6; --ink-2:#b2bcc9; --muted:#8793a3;
+    --rule:#26303c; --rule-strong:#3a4656;
+    --accent:#8fb0ff; --accent-soft:#1d2a44;
+    --hot:#ef7b76; --hot-soft:#3a2120;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#0e131a; --surface:#151c25; --surface-2:#1c2530;
+  --ink:#edf1f6; --ink-2:#b2bcc9; --muted:#8793a3;
+  --rule:#26303c; --rule-strong:#3a4656;
+  --accent:#8fb0ff; --accent-soft:#1d2a44;
+  --hot:#ef7b76; --hot-soft:#3a2120;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:14.5px;line-height:1.55;margin:0}
+.wrap{max-width:760px;margin:0 auto;padding:0 16px 56px}
+header{padding:26px 0 14px}
+.eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 6px}
+h1{font-size:clamp(22px,5vw,28px);line-height:1.2;font-weight:700;margin:0 0 8px;letter-spacing:-.01em}
+.stamp{font-size:12.5px;color:var(--ink-2)}
+.stamp a{color:var(--accent)}
+
+.day{margin-top:22px}
+.day h2{margin:0 0 8px;font-size:14px;font-weight:600;color:var(--ink-2);
+  display:flex;align-items:baseline;gap:8px;
+  border-bottom:1px solid var(--rule-strong);padding-bottom:6px}
+.day h2 .d{font-family:var(--mono);font-size:16px;font-weight:500;color:var(--ink)}
+.day h2 .w{font-size:12.5px;color:var(--muted)}
+.day.today h2 .d{color:var(--accent)}
+.day.today h2::after{content:"오늘";font-size:11px;font-weight:600;color:var(--accent);
+  background:var(--accent-soft);border-radius:999px;padding:1px 8px;margin-left:auto}
+
+ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+li{background:var(--surface);border:1px solid var(--rule);border-radius:10px;
+  padding:10px 12px;display:flex;gap:10px;align-items:flex-start}
+li.policy{border-color:var(--hot);background:var(--hot-soft)}
+li.major .what{font-weight:600;color:var(--ink)}
+li.major:not(.policy){border-color:var(--rule-strong);box-shadow:inset 3px 0 0 var(--accent)}
+.tag{flex:none;font-family:var(--mono);font-size:10.5px;font-weight:500;letter-spacing:.04em;
+  border-radius:999px;padding:2px 8px;background:var(--surface-2);color:var(--ink-2);
+  white-space:nowrap;margin-top:1px}
+li.policy .tag{background:var(--hot);color:#fff}
+.body{min-width:0}
+.who{font-weight:600}
+.what{color:var(--ink-2)}
+a.src{color:inherit;text-decoration:none}
+a.src:hover .who{text-decoration:underline}
+
+.empty{background:var(--surface);border:1px dashed var(--rule-strong);border-radius:10px;
+  padding:14px;color:var(--muted);text-align:center}
+.note{margin-top:28px;padding-top:16px;border-top:1px solid var(--rule);
+  font-size:12.5px;color:var(--muted);line-height:1.6}
+.note b{color:var(--ink-2)}
+.note ul{display:block;list-style:disc;padding-left:18px;margin:6px 0 0}
+.note li{display:list-item;background:none;border:0;padding:0;color:inherit}
+.warn{margin-top:14px;background:var(--hot-soft);border:1px solid var(--hot);
+  border-radius:10px;padding:10px 12px;font-size:12.5px;color:var(--ink-2)}
+.back{display:inline-block;margin-top:18px;font-size:13px;color:var(--accent);text-decoration:none}
+.back:hover{text-decoration:underline}
+</style></head><body>
+<div class="wrap">
+<header>
+  <p class="eyebrow">Month ahead</p>
+  <h1>향후 1개월 주요 일정</h1>
+  <p class="stamp">2026년 9월 29일 (화) 기준 · <a href="https://tskang89.github.io/euro-chartpack/">주요국 경제 차트팩</a></p>
+</header>
+<section class="day today"><h2><span class="d">9.29</span><span class="w">화요일</span></h2><ul><li class="release"><span class="tag">지표</span><span class="body"><a class="src" href="https://ec.europa.eu/eurostat/news/release-calendar" target="_blank" rel="noopener"><span class="who">Eurostat</span></a> <span class="what">경제심리지수(ESI) · 2026년 9월</span></span></li></ul></section>
+<section class="day"><h2><span class="d">9.30</span><span class="w">수요일</span></h2><ul><li class="release major"><span class="tag">지표</span><span class="body"><a class="src" href="https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582" target="_blank" rel="noopener"><span class="who">독일 통계청</span></a> <span class="what">소비자물가지수 속보치 · 2026년 9월</span></span></li><li class="meeting"><span class="tag">회의</span><span class="body"><a class="src" href="https://www.ecb.europa.eu/press/calendars/mgcgc/html/index.en.html" target="_blank" rel="noopener"><span class="who">ECB</span></a> <span class="what">이사회 (통화정책 외)</span></span></li><li class="release"><span class="tag">지표</span><span class="body"><a class="src" href="https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582" target="_blank" rel="noopener"><span class="who">독일 통계청</span></a> <span class="what">월간 고용통계 · 2026년 8월</span></span></li><li class="release"><span class="tag">지표</span><span class="body"><a class="src" href="https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582" target="_blank" rel="noopener"><span class="who">독일 통계청</span></a> <span class="what">수출입물가지수 · 2026년 8월</span></span></li><li class="release"><span class="tag">지표</span><span class="body"><a class="src" href="https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582" target="_blank" rel="noopener"><span class="who">독일 통계청</span></a> <span class="what">소매판매 · 2026년 8월</span></span></li></ul></section>
+<section class="day"><h2><span class="d">10.1</span><span class="w">목요일</span></h2><ul><li class="release"><span class="tag">지표</span><span class="body"><a class="src" href="https://ec.europa.eu/eurostat/news/release-calendar" target="_blank" rel="noopener"><span class="who">Eurostat</span></a> <span class="what">유로지역 실업률 · 2026년 8월</span></span></li><li class="release"><span class="tag">지표</span><span class="body"><a class="src" href="https://ec.europa.eu/eurostat/news/release-calendar" target="_blank" rel="noopener"><span class="who">Eurostat</span></a> <span class="what">주택가격지수 · 2026년 2분기</span></span></li></ul></section>
+<section class="day"><h2><span class="d">10.2</span><span class="w">금요일</span></h2><ul><li class="release major"><span class="tag">지표</span><span class="body"><a class="src" href="https://ec.europa.eu/eurostat/news/release-calendar" target="_blank" rel="noopener"><span class="who">Eurostat</span></a> <span class="what">유로지역 물가 속보치 · 2026년 9월</span></span></li><li class="release"><span class="tag">지표</span><span class="body"><a class="src" href="https://ec.europa.eu/eurostat/news/release-calendar" target="_blank" rel="noopener"><span class="who">Eurostat</span></a> <span class="what">부문별 계정 · 2026년 2분기</span></span></li><li class="release"><span class="tag">지표</span><span class="body"><a class="src" href="https://ec.europa.eu/eurostat/news/release-calendar" target="_blank" rel="noopener"><span class="who">Eurostat</span></a> <span class="what">국제수지 · 2026년 2분기</span></span></li><li class="release"><span class="tag">지표</span><span class="body"><a class="src" href="https://ec.europa.eu/eurostat/news/release-calendar" target="_blank" rel="noopener"><span class="who">Eurostat</span></a> <span class="what">건축허가 · 2026년 6월 · 2026년 2분기</span></span></li></ul></section>
+<section class="day"><h2><span class="d">10.5</span><span class="w">월요일</span></h2><ul><li class="release"><span class="tag">지표</span><span class="body"><a class="src" href="https://ec.europa.eu/eurostat/news/release-calendar" target="_blank" rel="noopener"><span class="who">Eurostat</span></a> <span class="what">생산자물가(내수) · 2026년 8월</span></span></li></ul></section>
+<section class="day"><h2><span class="d">10.6</span><span class="w">화요일</span></h2><ul><li class="release"><span class="tag">지표</span><span class="body"><a class="src" href="https://ec.europa.eu/eurostat/news/release-calendar" target="_blank" rel="noopener"><span class="who">Eurostat</span></a> <span class="what">수입물가 · 2026년 8월</span></span></li><li class="release"><span class="tag">지표</span><span class="body"><a class="src" href="https://ec.europa.eu/eurostat/news/release-calendar" target="_blank" rel="noopener"><span class="who">Eurostat</span></a> <span class="what">소매판매 · 2026년 8월</span></span></li><li class="release"><span class="tag">지표</span><span class="body"><a class="src" href="https://ec.europa.eu/eurostat/news/release-calendar" target="_blank" rel="noopener"><span class="who">Eurostat</span></a> <span class="what">서비스 생산자물가 · 2026년 2분기</span></span></li><li class="release"><span class="tag">지표</span><span class="body"><a class="src" href="https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582" target="_blank" rel="noopener"><span class="who">독일 통계청</span></a> <span class="what">서비스업 매출·고용 · 2026년 7월</span></span></li><li class="release"><span class="tag">지표</span><span class="body"><a class="src" href="https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582" target="_blank" rel="noopener"><span class="who">독일 통계청</span></a> <span class="what">제조업 수주·매출 · 2026년 8월</span></span></li></ul></section>
+<section class="day"><h2><span class="d">10.7</span><span class="w">수요일</span></h2><ul><li class="policy major"><span class="tag">통화정책</span><span class="body"><a class="src" href="https://nbp.pl/en/monetary-policy/monetary-policy-council/schedule-of-mpc-meetings/" target="_blank" rel="noopener"><span class="who">폴란드 NBP</span></a> <span class="what">통화정책 결정 (기준금리)</span></span></li><li class="release"><span class="tag">지표</span><span class="body"><a class="src" href="https://ec.europa.eu/eurostat/news/release-calendar" target="_blank" rel="noopener"><span class="who">Eurostat</span></a> <span class="what">서비스업 생산 · 2026년 7월</span></span></li></ul></section>
+<section class="day"><h2><span class="d">10.8</span><span class="w">목요일</span></h2><ul><li class="release"><span class="tag">지표</span><span class="body"><a class="src" href="https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582" target="_blank" rel="noopener"><span class="who">독일 통계청</span></a> <span class="what">대외교역 · 2026년 8월</span></span></li></ul></section>
+<section class="day"><h2><span class="d">10.13</span><span class="w">화요일</span></h2><ul><li class="release major"><span class="tag">지표</span><span class="body"><a class="src" href="https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582" target="_blank" rel="noopener"><span class="who">독일 통계청</span></a> <span class="what">소비자물가지수 · 2026년 9월</span></span></li><li class="release"><span class="tag">지표</span><span class="body"><a class="src" href="https://ec.europa.eu/eurostat/news/release-calendar" target="_blank" rel="noopener"><span class="who">Eurostat</span></a> <span class="what">단기금리(3개월) · 2026년 9월</span></span></li><li class="release"><span class="tag">지표</span><span class="body"><a class="src" href="https://ec.europa.eu/eurostat/news/release-calendar" target="_blank" rel="noopener"><span class="who">Eurostat</span></a> <span class="what">장기 국채금리 · 2026년 9월</span></span></li></ul></section>
+<section class="day"><h2><span class="d">10.14</span><span class="w">수요일</span></h2><ul><li class="release"><span class="tag">지표</span><span class="body"><a class="src" href="https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582" target="_blank" rel="noopener"><span class="who">독일 통계청</span></a> <span class="what">생산자물가 · 2026년 8월</span></span></li><li class="release"><span class="tag">지표</span><span class="body"><a class="src" href="https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582" target="_blank" rel="noopener"><span class="who">독일 통계청</span></a> <span class="what">도매물가 · 2026년 9월</span></span></li><li class="release"><span class="tag">지표</span><span class="body"><a class="src" href="https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582" target="_blank" rel="noopener"><span class="who">독일 통계청</span></a> <span class="what">제조업 고용 · 2026년 8월</span></span></li></ul></section>
+<section class="day"><h2><span class="d">10.15</span><span class="w">목요일</span></h2><ul><li class="release"><span class="tag">지표</span><span class="body"><a class="src" href="https://ec.europa.eu/eurostat/news/release-calendar" target="_blank" rel="noopener"><span class="who">Eurostat</span></a> <span class="what">산업생산 · 2026년 8월</span></span></li></ul></section>
+<section class="day"><h2><span class="d">10.16</span><span class="w">금요일</span></h2><ul><li class="release major"><span class="tag">지표</span><span class="body"><a class="src" href="https://ec.europa.eu/eurostat/news/release-calendar" target="_blank" rel="noopener"><span class="who">Eurostat</span></a> <span class="what">유로지역 소비자물가 · 2026년 9월</span></span></li><li class="release"><span class="tag">지표</span><span class="body"><a class="src" href="https://ec.europa.eu/eurostat/news/release-calendar" target="_blank" rel="noopener"><span class="who">Eurostat</span></a> <span class="what">상품교역 · 2026년 8월</span></span></li><li class="release"><span class="tag">지표</span><span class="body"><a class="src" href="https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582" target="_blank" rel="noopener"><span class="who">독일 통계청</span></a> <span class="what">건축허가 · 2026년 8월</span></span></li></ul></section>
+<section class="day"><h2><span class="d">10.19</span><span class="w">월요일</span></h2><ul><li class="release"><span class="tag">지표</span><span class="body"><a class="src" href="https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582" target="_blank" rel="noopener"><span class="who">독일 통계청</span></a> <span class="what">제조업 수주잔고 · 2026년 8월</span></span></li></ul></section>
+<section class="day"><h2><span class="d">10.20</span><span class="w">화요일</span></h2><ul><li class="release major"><span class="tag">지표</span><span class="body"><a class="src" href="https://ec.europa.eu/eurostat/news/release-calendar" target="_blank" rel="noopener"><span class="who">Eurostat</span></a> <span class="what">유로지역 국민계정 · 2026년 2분기</span></span></li><li class="release"><span class="tag">지표</span><span class="body"><a class="src" href="https://ec.europa.eu/eurostat/news/release-calendar" target="_blank" rel="noopener"><span class="who">Eurostat</span></a> <span class="what">건설생산 · 2026년 8월</span></span></li><li class="release"><span class="tag">지표</span><span class="body"><a class="src" href="https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582" target="_blank" rel="noopener"><span class="who">독일 통계청</span></a> <span class="what">생산자물가 · 2026년 9월</span></span></li></ul></section>
+<section class="day"><h2><span class="d">10.21</span><span class="w">수요일</span></h2><ul><li class="release"><span class="tag">지표</span><span class="body"><a class="src" href="https://ec.europa.eu/eurostat/news/release-calendar" target="_blank" rel="noopener"><span class="who">Eurostat</span></a> <span class="what">재정수지·정부부채 · 2025 · 2nd notification</span></span></li><li class="release"><span class="tag">지표</span><span class="body"><a class="src" href="https://ec.europa.eu/eurostat/news/release-calendar" target="_blank" rel="noopener"><span class="who">Eurostat</span></a> <span class="what">재정수지·정부부채 · 2026년 2분기</span></span></li></ul></section>
+<section class="day"><h2><span class="d">10.22</span><span class="w">목요일</span></h2><ul><li class="policy major"><span class="tag">통화정책</span><span class="body"><a class="src" href="https://www.tcmb.gov.tr/wps/wcm/connect/en/tcmb+en/main+menu/core+functions/monetary+policy/monetary+policy+committee" target="_blank" rel="noopener"><span class="who">튀르키예 TCMB</span></a> <span class="what">통화정책 결정 (1주 레포금리)</span></span></li><li class="policy major"><span class="tag">통화정책</span><span class="body"><a class="src" href="https://www.bok.or.kr/portal/singl/crncyPolicyDrcMtg/listYear.do?mtgSe=A&amp;menuNo=200755" target="_blank" rel="noopener"><span class="who">한국은행</span></a> <span class="what">금통위 통화정책방향 결정</span></span></li></ul></section>
+<section class="day"><h2><span class="d">10.23</span><span class="w">금요일</span></h2><ul><li class="release"><span class="tag">지표</span><span class="body"><a class="src" href="https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582" target="_blank" rel="noopener"><span class="who">독일 통계청</span></a> <span class="what">제조업 수주 · 2026년 8월</span></span></li></ul></section>
+<section class="day"><h2><span class="d">10.28</span><span class="w">수요일</span></h2><ul><li class="policy major"><span class="tag">통화정책</span><span class="body"><a class="src" href="https://www.ecb.europa.eu/press/calendars/mgcgc/html/index.en.html" target="_blank" rel="noopener"><span class="who">ECB</span></a> <span class="what">통화정책회의 (첫째 날)</span></span></li><li class="policy major"><span class="tag">통화정책</span><span class="body"><a class="src" href="https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm" target="_blank" rel="noopener"><span class="who">미국 연준</span></a> <span class="what">FOMC 통화정책 결정 (둘째 날)</span></span></li><li class="release"><span class="tag">지표</span><span class="body"><a class="src" href="https://ec.europa.eu/eurostat/news/release-calendar" target="_blank" rel="noopener"><span class="who">Eurostat</span></a> <span class="what">부문별 계정 · 2026년 2분기</span></span></li></ul></section>
+<section class="day"><h2><span class="d">10.29</span><span class="w">목요일</span></h2><ul><li class="policy major"><span class="tag">통화정책</span><span class="body"><a class="src" href="https://www.ecb.europa.eu/press/calendars/mgcgc/html/index.en.html" target="_blank" rel="noopener"><span class="who">ECB</span></a> <span class="what">통화정책회의 결정·기자회견 (둘째 날)</span></span></li><li class="release"><span class="tag">지표</span><span class="body"><a class="src" href="https://ec.europa.eu/eurostat/news/release-calendar" target="_blank" rel="noopener"><span class="who">Eurostat</span></a> <span class="what">경제심리지수(ESI) · 2026년 10월</span></span></li></ul></section>
+
+<div class="note"><b>자료</b> 아래 여섯 곳은 공식 일정표에서 날마다 새로 받아 옵니다 —
+ECB(이사회·통화정책회의), 미국 연준(FOMC), 영란은행(MPC), 한국은행(금통위),
+Eurostat(유로지역 주요 지표), 독일 통계청. 폴란드·체코·스위스·튀르키예
+중앙은행의 통화정책 결정일은 네 곳 모두 자동 수집이 막혀 있어(봇 차단·
+자바스크립트 렌더링) 공식 발표에서 확인한 날짜를 저장소에 적어 두고 씁니다.
+기관 이름을 누르면 공식 일정표로 갑니다.
+<br><br>
+연준 FOMC 와 폴란드 NBP 는 이틀에 걸쳐 회의하고 <b>둘째 날</b> 결정을
+내므로, 그 날짜만 적었습니다. 연준의 새 목표범위는 대개 그 다음 날부터
+적용됩니다.
+<br><br>
+<b>굵게 표시한 것</b> 통화정책 결정, GDP, 소비자물가입니다. '물가'를 글자 그대로 잡으면 생산자·수입·도매물가까지 걸려 한 달 치의 절반 가까이가 굵어져 강조가 힘을 잃습니다.
+<br><br>
+<b>추려 싣습니다</b>
+<ul>
+<li>Eurostat 은 유로지역 주요 지표(euro indicators)로 좁혔습니다. 해설 글까지
+넣으면 하루에 수십 건이 됩니다.</li>
+<li>독일 통계청은 지역·행정 통계까지 함께 내는데, 여기에는 물가·고용·생산·
+교역·국민계정 같은 거시지표만 싣습니다.</li>
+<li>일본은행·중국인민은행은 아직 넣지 않았습니다.</li>
+</ul>
+Eurostat 유로지역 발표는 대개 현지 11시, 독일 통계청은 8시입니다.</div>
+<a class="back" href="https://tskang89.github.io/euro-chartpack/">주요국 경제 차트팩 보기 →</a>
+</div>
+</body></html>
