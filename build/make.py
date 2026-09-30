@@ -15,6 +15,7 @@ from __future__ import annotations
 import argparse
 import datetime
 import html
+import json
 import pathlib
 import sys
 
@@ -128,8 +129,27 @@ def build(today: datetime.date) -> str:
     html_out = html_out.replace("__DAYS__", render_days(events, today))
     html_out = html_out.replace("__WARN__", warn_html)
     html_out = html_out.replace("__NOTE__", NOTE)
+    html_out = html_out.replace("__OPS__", ops_blob(today, events, warn))
     log(f"\n일정 {len(events)}건")
     return html_out
+
+
+# 페이지에 사람 눈에 안 보이는 한 덩어리를 심는다. 독자용이 아니라 주간
+# 자체 점검용이다. 별도 파일로 두지 않는 까닭은 이미 Pages 에 올라가는 파일
+# 안에 있으면 받는 쪽이 주소 하나로 끝나기 때문이다.
+def ops_blob(today, events, warn) -> str:
+    """빌드 상태를 JSON 한 줄로. 경고는 손질하지 않고 그대로 싣는다."""
+    days = sorted({e["date"] for e in events})
+    ops = {
+        "built": datetime.datetime.now(datetime.UTC)
+                         .strftime("%Y-%m-%dT%H:%MZ"),
+        "asOf": today.isoformat(),
+        "events": len(events),
+        "first": days[0] if days else None,
+        "last": days[-1] if days else None,
+        "warn": [" ".join(w.split()) for w in warn],
+    }
+    return json.dumps(ops, ensure_ascii=False).replace("<", "\\u003c")
 
 
 def main() -> int:
