@@ -24,7 +24,6 @@ import policy_dates                                          # noqa: E402
 import schedule                                              # noqa: E402
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-CHARTPACK = "https://tskang89.github.io/euro-chartpack/"
 TEMPLATE = ROOT / "template.html"
 OUTPUT = ROOT / "index.html"
 
@@ -108,9 +107,12 @@ def build(today: datetime.date) -> str:
     for w in policy_dates.health(today):
         log(w)
 
+    # 기준일만 적는다. 차트팩 링크는 template.html 이 다음 줄에 따로 둔다.
+    # 예전에는 이 줄 끝에 가운뎃점으로 이어 붙였는데, 그러면 링크가 기준일의
+    # 꼬리처럼 읽혀 눈에 들어오지 않았다. 차트팩 쪽도 '향후 1개월 주요 일정 →'
+    # 를 머리글의 제 줄에 두고 있으므로, 두 페이지가 같은 꼴이 된다.
     stamp = (f'{today.year}년 {today.month}월 {today.day}일 '
-             f'({WEEKDAY[today.weekday()]}) 기준 · '
-             f'<a href="{CHARTPACK}">주요국 경제 차트팩</a>')
+             f'({WEEKDAY[today.weekday()]}) 기준')
 
     # 수집이 실패한 것은 화면에도 적는다. 조용히 빈 일정표를 내놓으면
     # '이번 주는 일정이 없다'로 읽힌다.

@@ -42,6 +42,10 @@ header{padding:26px 0 14px}
 h1{font-size:clamp(22px,5vw,28px);line-height:1.2;font-weight:700;margin:0 0 8px;letter-spacing:-.01em}
 .stamp{font-size:12.5px;color:var(--ink-2)}
 .stamp a{color:var(--accent)}
+/* 차트팩의 머리글 링크와 같은 꼴로 둔다. 두 페이지를 오가는 링크가
+   서로 다르게 보이면 같은 자리에 있는 같은 것으로 읽히지 않는다. */
+.stamp a.calLink{color:var(--accent);text-decoration:none;font-weight:600}
+.stamp a.calLink:hover{text-decoration:underline}
 
 .day{margin-top:22px}
 .day h2{margin:0 0 8px;font-size:14px;font-weight:600;color:var(--ink-2);
@@ -78,18 +82,16 @@ a.src:hover .who{text-decoration:underline}
 .note li{display:list-item;background:none;border:0;padding:0;color:inherit}
 .warn{margin-top:14px;background:var(--hot-soft);border:1px solid var(--hot);
   border-radius:10px;padding:10px 12px;font-size:12.5px;color:var(--ink-2)}
-.back{display:inline-block;margin-top:18px;font-size:13px;color:var(--accent);text-decoration:none}
-.back:hover{text-decoration:underline}
 </style></head><body>
 <div class="wrap">
 <header>
   <p class="eyebrow">Month ahead</p>
   <h1>향후 1개월 주요 일정</h1>
   <p class="stamp">__STAMP__</p>
+  <p class="stamp"><a class="calLink" href="https://tskang89.github.io/euro-chartpack/">주요국 경제 차트팩 →</a></p>
 </header>
 __DAYS__
 __WARN__
 <div class="note">__NOTE__</div>
-<a class="back" href="https://tskang89.github.io/euro-chartpack/">주요국 경제 차트팩 보기 →</a>
 </div>
 </body></html>
