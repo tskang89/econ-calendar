@@ -53,9 +53,28 @@ h1{font-size:clamp(22px,5vw,28px);line-height:1.2;font-weight:700;margin:0 0 8px
   border-bottom:1px solid var(--rule-strong);padding-bottom:6px}
 .day h2 .d{font-family:var(--mono);font-size:16px;font-weight:500;color:var(--ink)}
 .day h2 .w{font-size:12.5px;color:var(--muted)}
-.day.today h2 .d{color:var(--accent)}
-.day.today h2::after{content:"오늘";font-size:11px;font-weight:600;color:var(--accent);
-  background:var(--accent-soft);border-radius:999px;padding:1px 8px;margin-left:auto}
+/* 오늘은 한눈에 걸려야 한다. 한 달 치가 깔리면 날짜 머리글이 스무 개
+   넘게 늘어서는데, 글자 색만 바꿔 두면 훑는 눈에 걸리지 않는다. 그래서
+   그 하루만 통째로 띠를 두르고 왼쪽에 굵은 선을 세운다. */
+.day.today{background:var(--accent-soft);border-left:4px solid var(--accent);
+  border-radius:10px;padding:10px 12px 12px;margin-left:-16px;margin-right:-16px;
+  padding-left:12px}
+.day.today h2{border-bottom-color:var(--accent);color:var(--accent)}
+.day.today h2 .d{color:var(--accent);font-weight:700;font-size:18px}
+.day.today h2 .w{color:var(--accent)}
+.day.today h2::after{content:"오늘";font-size:11px;font-weight:700;color:#fff;
+  background:var(--accent);border-radius:999px;padding:2px 9px;margin-left:auto;
+  letter-spacing:.02em}
+/* 띠 안에서는 항목 카드가 흰 배경이라 그대로 두면 떠 보인다. */
+.day.today li{border-color:var(--accent);
+  box-shadow:0 1px 2px rgba(22,63,140,.08)}
+
+/* 지나간 날. 빌드가 하루 늦게 돌면 어제가 맨 위에 남는데, 지워 버리면
+   '무슨 일이 있었는지'가 사라지므로 흐리게만 둔다. */
+.day.past{opacity:.45}
+.day.past h2::after{content:"지남";font-size:10.5px;font-weight:600;
+  color:var(--muted);background:var(--surface-2);border-radius:999px;
+  padding:1px 7px;margin-left:auto}
 
 ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
 li{background:var(--surface);border:1px solid var(--rule);border-radius:10px;
@@ -97,4 +116,48 @@ __WARN__
 <!-- 빌드가 스스로 남기는 기록. 화면에는 나오지 않는다.
      주간 자체 점검이 읽어 '표가 말라 가는가'를 본다. 독자용 정보가 아니다. -->
 <script id="ops" type="application/json">__OPS__</script>
+
+<script>
+/* 오늘을 보는 사람의 시계로 다시 매긴다.
+ *
+ * 빌드는 평일 한 번 도는데 GitHub 예약이 여섯 시간쯤 밀린다. 조간 브리핑은
+ * 08:00 에 나가고 이 페이지는 13시께 다시 만들어지니, 아침에 링크를 누르면
+ * 전날 판이 보인다. 빌드 시점의 '오늘'이 박혀 있으면 어제가 오늘로 강조된다.
+ * 실제로 10월 1일 아침에 9월 30일이 '오늘'이었다.
+ *
+ * 그래서 서버가 붙인 표시를 걷고 브라우저의 날짜로 다시 붙인다. 자바스크립트가
+ * 막힌 데서는 서버가 붙인 것이 그대로 남아 하루 어긋나는 선에서 멈춘다 —
+ * 아무 표시도 없는 것보다 낫다.
+ *
+ * 날짜는 현지 시각으로 센다. toISOString() 은 UTC 로 바꿔 버려서 베를린
+ * 자정~새벽 두 시에 하루 앞의 날짜를 준다.
+ */
+(function () {
+  var days = document.querySelectorAll('section.day[data-date]');
+  if (!days.length) return;
+
+  var n = new Date();
+  var pad = function (v) { return (v < 10 ? '0' : '') + v; };
+  var today = n.getFullYear() + '-' + pad(n.getMonth() + 1) + '-' + pad(n.getDate());
+
+  var hit = null;
+  days.forEach(function (el) {
+    var d = el.getAttribute('data-date');
+    el.classList.remove('today', 'past');
+    if (d === today) { el.classList.add('today'); hit = el; }
+    else if (d < today) { el.classList.add('past'); }
+  });
+
+  /* 오늘 일정이 없는 날도 있다(주말·휴일). 그때는 아무것도 강조하지 않는다 —
+     없는 날을 억지로 만들면 '오늘 이것이 있다'로 읽힌다. */
+  if (!hit) return;
+
+  /* 지나간 날이 앞에 쌓여 있으면 오늘이 화면 밖에 있다. 거기로 옮겨 준다.
+     스크롤 위치를 건드리는 것이라 조용히, 애니메이션 없이 한다. */
+  var past = document.querySelectorAll('section.day.past').length;
+  if (past > 0 && hit.getBoundingClientRect().top > window.innerHeight * 0.8) {
+    hit.scrollIntoView({ block: 'start' });
+  }
+})();
+</script>
 </body></html>

@@ -55,6 +55,10 @@ def render_days(events: list[dict], today: datetime.date) -> str:
     out = []
     for key in sorted(by_day):
         day = datetime.date.fromisoformat(key)
+        # 오늘 표시는 화면에서 다시 매긴다. 빌드가 하루 늦게 돌 때가 있어
+        # (GitHub 예약이 여섯 시간 밀린다) 빌드 시점의 오늘을 박아 두면
+        # 아침에 링크를 누른 사람이 어제를 오늘로 읽는다. 서버가 붙인 것은
+        # 자바스크립트가 막힌 데서 쓰는 보루로 남겨 둔다.
         cls = "day today" if day == today else "day"
         head = (f'<h2><span class="d">{day.month}.{day.day}</span>'
                 f'<span class="w">{WEEKDAY[day.weekday()]}요일</span></h2>')
@@ -69,7 +73,7 @@ def render_days(events: list[dict], today: datetime.date) -> str:
                 f'rel="noopener"><span class="who">{esc(e["who"])}</span></a> '
                 f'<span class="what">{esc(e["what"])}</span>'
                 f'</span></li>')
-        out.append(f'<section class="{cls}">{head}'
+        out.append(f'<section class="{cls}" data-date="{key}">{head}'
                    f'<ul>{"".join(items)}</ul></section>')
     if not out:
         return ('<div class="empty">앞으로 한 달 안에 잡힌 발표·회의가 '
