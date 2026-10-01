@@ -152,6 +152,16 @@ def ops_blob(today, events, warn) -> str:
         "first": days[0] if days else None,
         "last": days[-1] if days else None,
         "warn": [" ".join(w.split()) for w in warn],
+        # 항목 목록도 함께 싣는다. 조간 브리핑이 머리에 '오늘 볼 것' 한 줄을
+        # 넣는데, 그 재료가 여기다. 페이지 HTML 을 긁게 하면 화면을 손볼
+        # 때마다 그쪽이 깨지므로, 기계가 읽을 자리를 따로 둔다.
+        #
+        # 날짜·누가·무엇·굵게 표시 여부만 담는다. 주소는 넣지 않는다 —
+        # 브리핑은 제목만 쓰고, 자세한 것은 일정 페이지 링크가 맡는다.
+        "items": [{"d": e["date"], "who": e["who"], "what": e["what"],
+                   "kind": e["kind"], "major": bool(e.get("major"))}
+                  for e in sorted(events, key=lambda x: (x["date"],
+                                                         not x.get("major")))],
     }
     return json.dumps(ops, ensure_ascii=False).replace("<", "\\u003c")
 
