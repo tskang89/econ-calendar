@@ -490,6 +490,77 @@ def bok_events(today: datetime.date | None = None) -> list[dict]:
     return out
 
 
+# ------------------------------------------------------------------ 일본은행
+BOJ_URL = "https://www.boj.or.jp/en/mopo/mpmsche_minu/index.htm"
+
+# 페이지에 해마다 표가 하나씩 있다(<caption>Table : 2026</caption>). 올해와
+# 내년이 함께 올라와 있어 한 번만 받으면 된다.
+_BOJ_TABLE = re.compile(r"<table.*?</table>", re.S)
+_BOJ_YEAR = re.compile(r"<caption[^>]*>.*?(\d{4}).*?</caption>", re.S)
+_BOJ_ROW = re.compile(r"<tr.*?</tr>", re.S)
+_BOJ_CELL = re.compile(r"<t[dh].*?</t[dh]>", re.S)
+
+# 'Mar. 18 (Wed.), 19 (Thurs.)' 또는 'Apr. 30 (Thurs.), May 1 (Fri.)'.
+# 달이 적힌 조각만 달을 바꾸고, 없으면 앞의 달을 이어 쓴다.
+_BOJ_DATE = re.compile(
+    r"(?:(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.?\s*)?"
+    r"(\d{1,2})\s*\(")
+_BOJ_MONTH = {m: i for i, m in enumerate(
+    ("Jan", "Feb", "Mar", "Apr", "May", "Jun",
+     "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"), 1)}
+
+
+def boj_events(today: datetime.date | None = None) -> list[dict]:
+    """일본은행 금융정책결정회의(MPM).
+
+    회의는 이틀에 걸쳐 열리고 **결정은 둘째 날** 발표된다. 그래서 각 행의
+    마지막 날짜를 쓴다. 'Apr. 30, May 1' 처럼 달을 넘기는 회의가 있어,
+    둘째 조각에 달이 적혀 있으면 그것을 따른다.
+
+    표가 해마다 하나씩이고 올해·내년이 같은 쪽에 있다. 연말에 내년 표가
+    없는 동안에는 올해 것만 잡히는데, 그때는 policy_dates 의 건강 검사가
+    '곧 만료'로 알려 준다.
+    """
+    today = today or datetime.date.today()
+    doc = _get(BOJ_URL)
+    out = []
+    for table in _BOJ_TABLE.findall(doc):
+        year = _BOJ_YEAR.search(table)
+        if not year:
+            continue
+        y = int(year.group(1))
+        if y < today.year:               # 지난 해 표는 볼 것이 없다
+            continue
+        for row in _BOJ_ROW.findall(table):
+            cells = _BOJ_CELL.findall(row)
+            if not cells:
+                continue
+            text = re.sub(r"<[^>]+>", " ", cells[0])
+            hits = _BOJ_DATE.findall(text)
+            if not hits:
+                continue
+            month = None
+            day = None
+            for mon, dd in hits:         # 마지막 조각이 결정일이다
+                if mon:
+                    month = _BOJ_MONTH[mon]
+                day = int(dd)
+            if month is None or day is None:
+                continue
+            try:
+                date = datetime.date(y, month, day)
+            except ValueError:
+                continue
+            out.append({
+                "date": date.isoformat(), "kind": "policy", "area": "JP",
+                "who": "일본은행", "what": "금융정책결정회의 결과 발표",
+                "url": BOJ_URL,
+            })
+    if not out:
+        raise ScheduleError("일본은행: 회의일을 하나도 읽지 못했다")
+    return out
+
+
 # ------------------------------------------------------------------ 눈에 띄게
 # 한 달 치를 늘어놓으면 쉰 건이 넘는다. 그 가운데 사무소가 반드시 챙겨야 할
 # 셋 — 통화정책 결정, GDP, 물가 — 은 굵게 뽑아 둔다. 나머지는 배경이다.
@@ -532,6 +603,7 @@ def week(today: datetime.date, days: int | None = None,
                ("연준", fed_events),
                ("영란은행", boe_events),
                ("한국은행", lambda: bok_events(today)),
+               ("일본은행", lambda: boj_events(today)),
                ("Eurostat", lambda: eurostat_events(today, end)),
                ("Destatis", lambda: destatis_events(until=end.isoformat())))
     for name, fn in sources:
