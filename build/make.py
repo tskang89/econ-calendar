@@ -31,7 +31,8 @@ OUTPUT = ROOT / "index.html"
 WEEKDAY = "월화수목금토일"
 DAYS = 7
 
-TAG = {"policy": "통화정책", "meeting": "회의", "release": "지표"}
+TAG = {"policy": "통화정책", "meeting": "회의", "release": "지표",
+       "event": "행사"}
 
 
 def log(msg: str = "") -> None:

@@ -561,6 +561,121 @@ def boj_events(today: datetime.date | None = None) -> list[dict]:
     return out
 
 
+# ------------------------------------------------------------------ 행사
+# 발표 일정과 성격이 다르다. 지표는 '무엇이 나오나'이고 이쪽은 '무엇에 갈 수
+# 있나'다. 프랑크푸르트 사무소에서 ECB 컨퍼런스는 실제로 참석할 수 있는
+# 자리이므로, 숫자 일정만 있는 표에 이것이 빠져 있던 것이 이상했다.
+#
+# 여러 날에 걸친 행사는 **첫날에만 한 줄** 둔다. 이틀치를 다 찍으면 한 달
+# 표에 행사만 스무 줄이 깔려 지표가 묻힌다. 기간은 제목 뒤에 적는다.
+ECB_CONF_URL = "https://www.ecb.europa.eu/press/conferences/html/index.en.html"
+_CONF_PAIR = re.compile(r"<dt[^>]*>(.*?)</dt>\s*<dd[^>]*>(.*?)</dd>", re.S)
+_CONF_DAY = re.compile(r"(\d{2})/(\d{2})/(\d{4})")
+_CONF_LINK = re.compile(r"<a[^>]*href=\"([^\"]+)\"[^>]*>(.*?)</a>", re.S)
+
+
+def _plain(html: str) -> str:
+    return re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", html)).strip()
+
+
+def _span(start: datetime.date, end: datetime.date | None) -> str:
+    """'10.5~6' 또는 '10.30~11.1'. 하루짜리면 빈 문자열."""
+    if not end or end <= start:
+        return ""
+    if end.month == start.month:
+        return f"{start.month}.{start.day}~{end.day}"
+    return f"{start.month}.{start.day}~{end.month}.{end.day}"
+
+
+def ecb_conference_events(today: datetime.date | None = None) -> list[dict]:
+    """ECB 컨퍼런스·세미나.
+
+    <dt> 에 날짜(DD/MM/YYYY, 기간이면 둘), <dd> 에 <a>제목</a><br>장소.
+    지난 행사까지 한 쪽에 다 있으므로 오늘 이후만 추린다.
+    """
+    today = today or datetime.date.today()
+    doc = _get(ECB_CONF_URL)
+    out = []
+    for dt, dd in _CONF_PAIR.findall(doc):
+        days = [datetime.date(int(y), int(m), int(d))
+                for d, m, y in _CONF_DAY.findall(dt)]
+        if not days:
+            continue
+        start, end = days[0], (days[-1] if len(days) > 1 else None)
+        if (end or start) < today:
+            continue
+        link = _CONF_LINK.search(dd)
+        title = _plain(link.group(2)) if link else _plain(dd)
+        if not title:
+            continue
+        where = _plain(dd.split("</a>")[-1]) if link else ""
+        url = link.group(1) if link else ECB_CONF_URL
+        if url.startswith("/"):
+            url = "https://www.ecb.europa.eu" + url
+        what = title
+        span = _span(start, end)
+        if span:
+            what += f" · {span}"
+        if where:
+            what += f" ({where})"
+        out.append({"date": start.isoformat(), "kind": "event", "area": "EA",
+                    "who": "ECB", "what": what, "url": url})
+    if not out:
+        raise ScheduleError("ECB 행사: 하나도 읽지 못했다")
+    return out
+
+
+BBK_CONF_URL = "https://www.bundesbank.de/en/bundesbank/research/conferences"
+_BBK_ITEM = re.compile(r'<li class="collection__item">(.*?)</li>', re.S)
+_BBK_TITLE = re.compile(r'<div class="h3">(.*?)(?:<small|</div>)', re.S)
+_BBK_INFO = re.compile(r'<p class="text-eventinfo">(.*?)</p>', re.S)
+_BBK_DAY = re.compile(r"(\d{2})\.(\d{2})\.(\d{4})")
+
+
+def bbk_conference_events(today: datetime.date | None = None) -> list[dict]:
+    """분데스방크 연구 컨퍼런스.
+
+    'Upcoming Events' 아래만 읽는다. 그 뒤에 지난 행사가 해마다 쌓여 있어
+    통째로 읽으면 과거가 섞인다. 건수는 적다 — 한 해 두어 번이다.
+    """
+    today = today or datetime.date.today()
+    doc = _get(BBK_CONF_URL)
+    head = doc.find("Upcoming Events")
+    if head < 0:
+        raise ScheduleError("분데스방크 행사: 'Upcoming Events' 를 찾지 못했다")
+    # 다음 제목(지난 행사 목록)까지만 자른다.
+    tail = doc.find("Previous conferences", head)
+    block = doc[head:tail if tail > 0 else head + 20000]
+
+    out = []
+    for item in _BBK_ITEM.findall(block):
+        info = _BBK_INFO.search(item)
+        title = _BBK_TITLE.search(item)
+        if not info or not title:
+            continue
+        days = [datetime.date(int(y), int(m), int(d))
+                for d, m, y in _BBK_DAY.findall(info.group(1))]
+        if not days:
+            continue
+        start, end = days[0], (days[-1] if len(days) > 1 else None)
+        if (end or start) < today:
+            continue
+        name = _plain(title.group(1))
+        if not name:
+            continue
+        # '29.09.2026 | Frankfurt am Main' 에서 장소만 떼어 낸다.
+        where = _plain(info.group(1)).split("|")[-1].strip()
+        what = name
+        span = _span(start, end)
+        if span:
+            what += f" · {span}"
+        if where and not _BBK_DAY.search(where):
+            what += f" ({where})"
+        out.append({"date": start.isoformat(), "kind": "event", "area": "DE",
+                    "who": "분데스방크", "what": what, "url": BBK_CONF_URL})
+    return out          # 없는 날이 있다. 그것은 고장이 아니다.
+
+
 # ------------------------------------------------------------------ 눈에 띄게
 # 한 달 치를 늘어놓으면 쉰 건이 넘는다. 그 가운데 사무소가 반드시 챙겨야 할
 # 셋 — 통화정책 결정, GDP, 물가 — 은 굵게 뽑아 둔다. 나머지는 배경이다.
@@ -574,6 +689,10 @@ _MAJOR = re.compile(
 
 
 def is_major(event: dict) -> bool:
+    # 행사는 굵게 하지 않는다. 굵은 표시는 '시장이 움직이는 것'에만 쓴다 —
+    # 제목에 GDP 가 들어간 워크숍이 물가지표처럼 보이면 안 된다.
+    if event["kind"] == "event":
+        return False
     if event["kind"] == "policy":
         return True
     return bool(_MAJOR.search(event["what"]))
@@ -604,6 +723,8 @@ def week(today: datetime.date, days: int | None = None,
                ("영란은행", boe_events),
                ("한국은행", lambda: bok_events(today)),
                ("일본은행", lambda: boj_events(today)),
+               ("ECB 행사", lambda: ecb_conference_events(today)),
+               ("분데스방크 행사", lambda: bbk_conference_events(today)),
                ("Eurostat", lambda: eurostat_events(today, end)),
                ("Destatis", lambda: destatis_events(until=end.isoformat())))
     for name, fn in sources:

@@ -80,6 +80,11 @@ ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px
 li{background:var(--surface);border:1px solid var(--rule);border-radius:10px;
   padding:10px 12px;display:flex;gap:10px;align-items:flex-start}
 li.policy{border-color:var(--hot);background:var(--hot-soft)}
+/* 행사는 배경이다. 발표 일정과 성격이 달라 한눈에 갈려야 하지만,
+   통화정책처럼 눈에 띄면 안 된다 — 점선 테두리로만 구분한다. */
+li.event{border-style:dashed}
+li.event .tag{background:var(--surface-2);color:var(--muted)}
+li.event .who{color:var(--muted)}
 li.major .what{font-weight:600;color:var(--ink)}
 li.major:not(.policy){border-color:var(--rule-strong);box-shadow:inset 3px 0 0 var(--accent)}
 .tag{flex:none;font-family:var(--mono);font-size:10.5px;font-weight:500;letter-spacing:.04em;
