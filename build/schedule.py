@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 """향후 일주일 일정을 공식 페이지에서 모은다.
 
-두 곳만 자동으로 받아 온다. 나머지는 자동 수집이 막혀 있어 손으로 적은
-표를 쓴다(policy_dates.py 에 까닭을 적었다).
+처음에는 두 곳(ECB·Destatis)만 받아 왔다. 지금은 아홉 곳에서 받아 오고,
+폴란드 NBP·체코 ČNB 만 손으로 적은 표를 쓴다 — 그 두 곳은 봇 차단과
+자바스크립트 렌더링으로 막혀 있다(policy_dates.py 에 까닭을 적었다).
+받아 오는 곳이라도 실패하면 표로 떨어진다.
 
   ECB      이사회·통화정책회의 일정. <dt>날짜</dt><dd>설명</dd> 짜임이라
            그대로 읽힌다.
@@ -670,6 +672,92 @@ def boj_events(today: datetime.date | None = None) -> list[dict]:
     return out
 
 
+# -------------------------------------------------- 스위스 SNB·튀르키예 TCMB
+# 이 둘은 policy_dates.py 의 손으로 적은 표에만 있었다. 막혔다고 적어 둔
+# 쪽이 엉뚱한 페이지였기 때문이다(2026-10-02) —
+#
+#   SNB  '통화정책 결정' 페이지에는 **이미 내린 결정만** 실린다. 앞날
+#        일정은 공보 일정표에 있고, 서버가 다 그려 보내므로 그냥 열린다.
+#   TCMB 통화정책위원회 소개 쪽은 리디렉션으로 막히지만, 공보 일정표는
+#        표째로 열린다.
+#
+# 표는 지우지 않고 **받아 오기가 실패했을 때 떨어질 자리**로 남긴다. 결정일은
+# 한 해에 한 번 공표되는 것이라 묵어도 틀리는 일이 드물고, 통화정책 결정일이
+# 통째로 빠지는 것이 제일 나쁘다.
+#
+# 이름·금리 이름·링크는 policy_dates 의 표에서 가져온다. 같은 기관이 받아 온
+# 날과 표에서 온 날에 따라 다르게 적히면 안 된다.
+SNB_URL = ("https://www.snb.ch/en/services-events/digital-services/"
+           "event-schedule")
+TCMB_URL = ("https://www.tcmb.gov.tr/wps/wcm/connect/en/tcmb+en/"
+            "main+menu/announcements/calendar")
+
+# '10.12.2026 09:30 Monetary policy assessment of 10 December 2026 (press
+# release)'. 같은 날에 보도자료와 기자회견 두 줄이 있어 날짜로 추린다.
+_SNB_ROW = re.compile(r"(\d{2})\.(\d{2})\.(\d{4})\s+\d{1,2}:\d{2}\s+"
+                      r"Monetary policy assessment", re.I)
+
+# TCMB 표는 한 행이 '결정일 | 요약 공개일 | 인플레이션보고서 | 금융안정보고서'
+# 다. 첫 칸만 쓴다. 달 이름이 'January' 처럼 통째로 적혀 앞 세 자만 본다.
+_TCMB_HEAD = "MONETARY POLICY COMMITTEE MEETING"
+_TCMB_DAY = re.compile(r"^([A-Z][a-z]{2})[a-z]*\s+(\d{1,2}),\s*(\d{4})$")
+
+
+def _bank_event(code: str, date: datetime.date) -> dict:
+    import policy_dates
+    bank = policy_dates.BANKS[code]
+    return {
+        "date": date.isoformat(), "kind": "policy", "area": code,
+        "who": f"{bank['name']} {bank['bank']}",
+        "what": f"통화정책 결정 ({bank['rate']})",
+        "url": bank["url"],
+    }
+
+
+def snb_events() -> list[dict]:
+    """스위스 SNB 정례 통화정책평가. 3·6·9·12월 목요일."""
+    text = _plain(_get(SNB_URL))
+    days = set()
+    for dd, mm, yy in _SNB_ROW.findall(text):
+        try:
+            days.add(datetime.date(int(yy), int(mm), int(dd)))
+        except ValueError:
+            continue
+    if not days:
+        raise ScheduleError("스위스 SNB: 정책평가 일자를 하나도 읽지 못했다")
+    return [_bank_event("CH", d) for d in sorted(days)]
+
+
+def tcmb_events() -> list[dict]:
+    """튀르키예 TCMB 통화정책위원회 결정일."""
+    doc = _get(TCMB_URL)
+    at = doc.find(_TCMB_HEAD)
+    if at < 0:
+        raise ScheduleError("튀르키예 TCMB: 일정표 제목을 찾지 못했다")
+    end = doc.find("</table>", at)
+    block = doc[at:end if end > 0 else len(doc)]
+
+    days = set()
+    for row in re.findall(r"<tr.*?</tr>", block, re.S):
+        cells = re.findall(r"<t[dh].*?</t[dh]>", row, re.S)
+        if not cells:
+            continue
+        first = _plain(cells[0]).replace("\xa0", "").strip()
+        hit = _TCMB_DAY.match(first)
+        if not hit:                     # 머리글 줄과 빈 칸은 여기서 걸린다
+            continue
+        mon = _BOJ_MONTH.get(hit.group(1))
+        if not mon:
+            continue
+        try:
+            days.add(datetime.date(int(hit.group(3)), mon, int(hit.group(2))))
+        except ValueError:
+            continue
+    if not days:
+        raise ScheduleError("튀르키예 TCMB: 결정일을 하나도 읽지 못했다")
+    return [_bank_event("TR", d) for d in sorted(days)]
+
+
 # ------------------------------------------------------------------ 행사
 # 발표 일정과 성격이 다르다. 지표는 '무엇이 나오나'이고 이쪽은 '무엇에 갈 수
 # 있나'다. 프랑크푸르트 사무소에서 ECB 컨퍼런스는 실제로 참석할 수 있는
@@ -857,8 +945,37 @@ def week(today: datetime.date, days: int | None = None,
         events += hit
         log(f"  {name:9} 전체 {len(got):3}건 중 이 구간 {len(hit)}건")
 
+    # 유로지역 밖 중앙은행. 스위스·튀르키예는 받아 오고, 받아 온 것이 있으면
+    # 그 나라는 표에서 빼 중복을 막는다. 받아 오기가 실패하면 표로 떨어진다 —
+    # 그때는 일정이 빠지는 것이 아니라 손으로 적어 둔 것을 쓰는 것이므로,
+    # 독자 화면의 '받지 못했습니다' 경고에는 올리지 않는다(make.py 가 '받지
+    # 못' 이라는 말로 가른다). 빌드 로그와 주간 점검에만 남긴다.
     import policy_dates
-    hit = policy_dates.upcoming(today, end)
+    live = set()
+    for code, fn in (("CH", snb_events), ("TR", tcmb_events)):
+        tag = f"{policy_dates.BANKS[code]['name']} {policy_dates.BANKS[code]['bank']}"
+        try:
+            got = fn()
+        except (ScheduleError, ValueError) as exc:
+            warn.append(f"{tag} 결정일은 적어 둔 표를 쓴다 — 자동 수집 실패: {exc}")
+            log(f"  [표 사용] {tag} — {exc}")
+            continue
+        live.add(code)
+        hit = [e for e in got
+               if today <= datetime.date.fromisoformat(e["date"]) <= end]
+        events += hit
+        # 받아 온 것과 표가 어긋나면 알린다. 표는 받아 오기가 실패했을 때
+        # 떨어질 자리이므로 묵으면 안 되고, 결정일이 바뀐 것일 수도 있다.
+        table = {e["date"] for e in policy_dates.upcoming(today, end)
+                 if e["area"] == code}
+        if table != {e["date"] for e in hit}:
+            warn.append(f"{tag} — 받아 온 결정일과 적어 둔 표가 어긋난다: "
+                        f"받은 것 {sorted(e['date'] for e in hit)} / "
+                        f"표 {sorted(table)}")
+            log(f"  [어긋남] {tag} — 표를 고쳐야 한다")
+        log(f"  {tag:9} 받아 온 {len(got):3}건 중 이 구간 {len(hit)}건")
+
+    hit = policy_dates.upcoming(today, end, skip=live)
     events += hit
     log(f"  중앙은행     표에서 이 구간 {len(hit)}건")
 

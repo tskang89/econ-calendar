@@ -28,6 +28,11 @@ import datetime
 # 확인이 임박했음을 알릴 기준. 남은 일정이 이 날 수 안쪽이면 빌드가 경고한다.
 WARN_DAYS = 75
 
+# 공식 일정표에서 날마다 받아 오는 나라(schedule.snb_events·tcmb_events).
+# 여기 표는 받아 오기가 실패했을 때 떨어질 자리다. 그래서 아래 건강 검사가
+# 다 지나기 전까지는 재촉하지 않는다 — 손이 필요한 곳은 폴란드·체코다.
+AUTO = {"CH", "TR"}
+
 BANKS = {
     "PL": {
         "name": "폴란드", "bank": "NBP", "rate": "기준금리",
@@ -99,10 +104,17 @@ BANKS = {
 }
 
 
-def upcoming(start: datetime.date, end: datetime.date) -> list[dict]:
-    """[start, end] 구간에 걸리는 결정일."""
+def upcoming(start: datetime.date, end: datetime.date,
+             skip: set[str] | None = None) -> list[dict]:
+    """[start, end] 구간에 걸리는 결정일.
+
+    skip 에 든 나라는 뺀다. schedule.py 가 받아 오기에 성공한 나라를 여기로
+    넘긴다 — 같은 결정일이 두 줄로 올라가지 않게 하려는 것이다.
+    """
     out = []
     for code, bank in BANKS.items():
+        if skip and code in skip:
+            continue
         for d in bank["dates"]:
             day = datetime.date.fromisoformat(d)
             if start <= day <= end:
@@ -118,7 +130,7 @@ def upcoming(start: datetime.date, end: datetime.date) -> list[dict]:
 def health(today: datetime.date) -> list[str]:
     """표가 말라 가는 곳을 알린다. 빌드 로그에 그대로 찍는다."""
     msgs = []
-    for bank in BANKS.values():
+    for code, bank in BANKS.items():
         left = [d for d in bank["dates"]
                 if datetime.date.fromisoformat(d) >= today]
         tag = f"{bank['name']} {bank['bank']}"
@@ -127,6 +139,11 @@ def health(today: datetime.date) -> list[str]:
                         f"{bank['url']}")
         elif not left:
             msgs.append(f"  [만료] {tag} — 남은 일정이 없다. {bank['url']}")
+        elif code in AUTO:
+            # 받아 오는 나라다. 표는 받아 오기가 실패했을 때 떨어질 자리라
+            # 다 지나기 전까지는 재촉하지 않는다. 받아 온 것과 표가 어긋나면
+            # schedule.py 가 따로 알린다.
+            continue
         elif (datetime.date.fromisoformat(left[-1]) - today).days < WARN_DAYS:
             msgs.append(f"  [곧 만료] {tag} — 마지막 일정이 {left[-1]} 이다. "
                         f"다음 해 일정을 채워야 한다. {bank['url']}")
