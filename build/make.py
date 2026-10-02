@@ -109,8 +109,11 @@ Eurostat 유로지역 발표는 대개 현지 11시, 독일 통계청은 8시입
 def build(today: datetime.date) -> str:
     log(f"일정 수집 — {today} 부터 {schedule.month_end(today)} 까지")
     events, warn = schedule.week(today, log=log)
-    warn += policy_dates.health(today)
-    for w in policy_dates.health(today):
+    # 표가 말라 가는 곳. 통화정책 일자(손으로 채우는 것)와 Destatis 저장분
+    # (사무소에서만 채울 수 있는 것) 둘 다 여기서 센다.
+    health = policy_dates.health(today) + schedule.cache_health(today)
+    warn += health
+    for w in health:
         log(w)
 
     # 기준일만 적는다. 차트팩 링크는 template.html 이 다음 줄에 따로 둔다.

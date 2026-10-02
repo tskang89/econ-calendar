@@ -35,7 +35,16 @@ EUROSTAT_JSON = "https://ec.europa.eu/eurostat/o/calendars/eventsJson"
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/124.0 Safari/537.36")
 TIMEOUT = 40
-RETRIES = 3
+
+# 재시도를 네 번, 간격도 늘렸다(3·6·9초, 모두 합쳐 18초).
+#
+# 2026-10-02 에 한국은행이 502 를 한 번 돌려주었다. 그날 네 번 돈 빌드 가운데
+# 한 번만 그랬고 나머지는 멀쩡했다 — 몇 초짜리 장애였는데 2·4·6초로는 넘기지
+# 못했다. 하필 그 판이 배포돼 '한국은행 일정을 받지 못했다'가 화면에 떴다.
+#
+# 빌드는 하루 한 번 30초쯤 도는 것이라 몇십 초 더 기다리는 것은 값이 싸다.
+# 반대로 한 번 실패하면 그 일정이 하루 내내 빠진 채로 걸려 있다.
+RETRIES = 4
 
 
 class ScheduleError(RuntimeError):
@@ -65,7 +74,7 @@ def _get(url: str) -> str:
                 resp.encoding = resp.apparent_encoding or resp.encoding
                 return resp.text
             last = f"HTTP {resp.status_code}"
-        time.sleep(2 * (attempt + 1))
+        time.sleep(3 * (attempt + 1))
     raise ScheduleError(f"{url.split('/')[2]}: {last}")
 
 
@@ -203,6 +212,33 @@ def _de_period(text: str) -> str:
 # 다만 언제 받은 것인지는 화면에 밝힌다 — 묵은 자료를 오늘 것처럼 보이게
 # 하면 안 된다.
 CACHE = pathlib.Path(__file__).resolve().parent.parent / "data" / "destatis.json"
+
+
+# 저장분이 이만큼 남지 않으면 알린다. 사무소에서 손으로 채워야 하므로
+# 넉넉히 앞서 말해야 한다 — 두 달이면 깜빡해도 한 번은 더 눈에 띈다.
+CACHE_WARN_DAYS = 60
+
+
+def cache_health(today: datetime.date) -> list[str]:
+    """저장분이 말라 가는지 본다.
+
+    주간 자체 점검이 보는 것은 일정표 전체의 마지막 날짜인데, 그 자리는
+    일본은행 2027년 일정 같은 것이 채우고 있어 Destatis 저장분이 바닥나도
+    드러나지 않는다. 그래서 따로 센다.
+    """
+    events, fetched = _cache_read()
+    if not events:
+        return [f"  [빈 칸] Destatis 저장분이 없다 — 사무소에서 "
+                f"build/make.py 를 한 번 돌려야 한다. {DESTATIS_URL}"]
+    last = max(e["date"] for e in events)
+    left = (datetime.date.fromisoformat(last) - today).days
+    if left < 0:
+        return [f"  [만료] Destatis 저장분이 {last} 에서 끝났다 — 독일 통계청"
+                f" 일정이 통째로 빠진다. 사무소에서 build/make.py 를 돌릴 것."]
+    if left < CACHE_WARN_DAYS:
+        return [f"  [곧 만료] Destatis 저장분이 {last} 까지다({left}일 남음)"
+                f" — 사무소에서 build/make.py 를 돌려 채울 것."]
+    return []
 
 
 def _cache_read() -> tuple[list[dict], str | None]:
