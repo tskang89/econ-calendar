@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 """향후 일주일 일정을 공식 페이지에서 모은다.
 
-처음에는 두 곳(ECB·Destatis)만 받아 왔다. 지금은 아홉 곳에서 받아 오고,
-폴란드 NBP·체코 ČNB 만 손으로 적은 표를 쓴다 — 그 두 곳은 봇 차단과
-자바스크립트 렌더링으로 막혀 있다(policy_dates.py 에 까닭을 적었다).
-받아 오는 곳이라도 실패하면 표로 떨어진다.
+처음에는 두 곳(ECB·Destatis)만 받아 왔다. 지금은 열 곳에서 받아 오고,
+**폴란드 NBP 하나만** 손으로 적은 표를 쓴다 — Imperva 봇 차단이라 코드로는
+어떤 수를 써도 돌아선다(policy_dates.py 에 까닭을 적었다).
+받아 오는 곳이라도 실패하면 그 나라는 표로 떨어진다.
 
   ECB      이사회·통화정책회의 일정. <dt>날짜</dt><dd>설명</dd> 짜임이라
            그대로 읽힌다.
@@ -63,9 +63,11 @@ class CachedSchedule(Exception):
         self.why = why
 
 
-def _get(url: str) -> str:
+def _get(url: str, tries: int = RETRIES) -> str:
+    """tries 를 1 로 주면 한 번만 본다. 없을 수도 있는 쪽(내년 공지처럼
+    404 가 정상인 주소)에 30초를 쓰지 않으려는 것이다."""
     last = None
-    for attempt in range(RETRIES):
+    for attempt in range(tries):
         try:
             resp = requests.get(url, timeout=TIMEOUT,
                                 headers={"User-Agent": UA})
@@ -76,7 +78,8 @@ def _get(url: str) -> str:
                 resp.encoding = resp.apparent_encoding or resp.encoding
                 return resp.text
             last = f"HTTP {resp.status_code}"
-        time.sleep(3 * (attempt + 1))
+        if attempt + 1 < tries:          # 마지막 판 뒤에는 쉴 까닭이 없다
+            time.sleep(3 * (attempt + 1))
     raise ScheduleError(f"{url.split('/')[2]}: {last}")
 
 
@@ -758,6 +761,59 @@ def tcmb_events() -> list[dict]:
     return [_bank_event("TR", d) for d in sorted(days)]
 
 
+# ------------------------------------------------------------------ 체코 ČNB
+# 일정 페이지(cnb-news/calendar)는 자바스크립트로 그려진다. 그 안을 들추면
+# list-ajax.jsp 라는 주소가 나오고 코드로도 열리지만, 열 건씩 끊어 주어
+# 열두 달 뒤를 보려면 수십 번을 불러야 한다.
+#
+# 그럴 것 없이, ČNB 는 해마다 '다음 해 이사회 일정' 공지를 한 장으로 낸다.
+# 그 쪽은 서버가 다 그려 보내고 통화정책 회의일만 한 줄에 모아 둔다 —
+# "will be held on the following dates: 5 February 19 March ...".
+#
+# 올해와 내년 둘을 본다. 내년 공지는 아직 없는 때가 많고(404) 그것은 탈이
+# 아니다. 둘 다 못 읽었을 때만 실패로 친다.
+CNB_NEWS = ("https://www.cnb.cz/en/cnb-news/news/"
+            "Dates-of-the-CNB-Boards-meetings-in-{year}")
+_CNB_ANCHOR = "following dates"
+_CNB_STOP = "The CNB will publish"
+_CNB_MONTH = {m: i for i, m in enumerate(
+    ("January", "February", "March", "April", "May", "June", "July",
+     "August", "September", "October", "November", "December"), 1)}
+_CNB_DAY = re.compile(r"(\d{1,2})\s+(" + "|".join(_CNB_MONTH) + r")\b")
+
+
+def _cnb_year(year: int) -> set[datetime.date]:
+    text = _plain(_get(CNB_NEWS.format(year=year), tries=1))
+    at = text.find(_CNB_ANCHOR)
+    if at < 0:
+        raise ScheduleError(f"체코 ČNB {year}: 일정 문단을 찾지 못했다")
+    seg = text[at:]
+    stop = seg.find(_CNB_STOP)
+    seg = seg[:stop if stop > 0 else 400]
+    out = set()
+    for day, mon in _CNB_DAY.findall(seg):
+        try:
+            out.add(datetime.date(year, _CNB_MONTH[mon], int(day)))
+        except ValueError:
+            continue
+    return out
+
+
+def cnb_events(today: datetime.date | None = None) -> list[dict]:
+    """체코 ČNB 통화정책 이사회. 공지 한 장이 한 해를 담는다."""
+    today = today or datetime.date.today()
+    days: set[datetime.date] = set()
+    why = []
+    for year in (today.year, today.year + 1):
+        try:
+            days |= _cnb_year(year)
+        except (ScheduleError, ValueError) as exc:
+            why.append(str(exc))
+    if not days:
+        raise ScheduleError("체코 ČNB: " + " / ".join(why))
+    return [_bank_event("CZ", d) for d in sorted(days)]
+
+
 # ------------------------------------------------------------------ 행사
 # 발표 일정과 성격이 다르다. 지표는 '무엇이 나오나'이고 이쪽은 '무엇에 갈 수
 # 있나'다. 프랑크푸르트 사무소에서 ECB 컨퍼런스는 실제로 참석할 수 있는
@@ -952,7 +1008,8 @@ def week(today: datetime.date, days: int | None = None,
     # 못' 이라는 말로 가른다). 빌드 로그와 주간 점검에만 남긴다.
     import policy_dates
     live = set()
-    for code, fn in (("CH", snb_events), ("TR", tcmb_events)):
+    for code, fn in (("CH", snb_events), ("TR", tcmb_events),
+                     ("CZ", lambda: cnb_events(today))):
         tag = f"{policy_dates.BANKS[code]['name']} {policy_dates.BANKS[code]['bank']}"
         try:
             got = fn()
