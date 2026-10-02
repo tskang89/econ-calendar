@@ -19,6 +19,8 @@ from __future__ import annotations
 
 import datetime
 import html
+import json
+import pathlib
 import re
 import time
 
@@ -38,6 +40,16 @@ RETRIES = 3
 
 class ScheduleError(RuntimeError):
     pass
+
+
+class CachedSchedule(Exception):
+    """받지는 못했지만 저장해 둔 것이 있다. 일정과 받은 날을 함께 들고 간다."""
+
+    def __init__(self, events: list[dict], fetched: str | None, why: str):
+        super().__init__(why)
+        self.events = events
+        self.fetched = fetched
+        self.why = why
 
 
 def _get(url: str) -> str:
@@ -180,6 +192,48 @@ def _de_period(text: str) -> str:
     return text
 
 
+# 받아 둔 Destatis 일정. GitHub 러너에서 못 받을 때 쓴다.
+#
+# destatis.de 가 Azure IP 를 통째로 막는다(2026-10-02 확인). 요청 모양을 여섯
+# 가지로 바꿔 봐도 전부 nginx 기본 403 이고, 같은 주소가 프랑크푸르트 사무소
+# 회선에서는 200 이다. 헤더로 풀 수 있는 문제가 아니다.
+#
+# 그래서 받히는 곳에서 받아 저장소에 넣어 두고, 러너는 그것을 쓴다. 발표
+# 일정은 몇 달 앞서 공표되고 좀처럼 바뀌지 않으므로 묵은 것이어도 쓸 만하다.
+# 다만 언제 받은 것인지는 화면에 밝힌다 — 묵은 자료를 오늘 것처럼 보이게
+# 하면 안 된다.
+CACHE = pathlib.Path(__file__).resolve().parent.parent / "data" / "destatis.json"
+
+
+def _cache_read() -> tuple[list[dict], str | None]:
+    """(일정, 받은 날). 파일이 없거나 깨졌으면 ([], None)."""
+    try:
+        doc = json.loads(CACHE.read_text(encoding="utf-8"))
+        return doc.get("events") or [], doc.get("fetched")
+    except (OSError, ValueError):
+        return [], None
+
+
+def _cache_write(events: list[dict], today: datetime.date) -> None:
+    """받은 것을 저장해 둔 것과 합쳐 쓴다.
+
+    덮어쓰면 안 된다. 평소 빌드는 한 달 치만 받으므로, 한 번 넉넉히 받아
+    둔 다섯 달치가 다음 성공 때 한 달치로 줄어든다. 러너가 몇 주씩 이것에
+    기대는 구조라 그 축소가 그대로 구멍이 된다.
+
+    지난 일정은 버린다. 쌓아 두면 파일만 커지고 쓸 데가 없다.
+    """
+    old, _ = _cache_read()
+    merged = {(e["date"], e["what"]): e for e in old}
+    merged.update({(e["date"], e["what"]): e for e in events})
+    keep = sorted((e for k, e in merged.items() if k[0] >= today.isoformat()),
+                  key=lambda e: (e["date"], e["what"]))
+    CACHE.parent.mkdir(parents=True, exist_ok=True)
+    CACHE.write_text(json.dumps(
+        {"fetched": today.isoformat(), "events": keep},
+        ensure_ascii=False, indent=1), encoding="utf-8")
+
+
 def destatis_events(keep_all: bool = False, until: str | None = None,
                     max_pages: int = 6) -> list[dict]:
     """독일 통계청 발표일정.
@@ -187,18 +241,37 @@ def destatis_events(keep_all: bool = False, until: str | None = None,
     한 쪽에 여남은 건뿐이라 이레 치는 첫 쪽으로 됐지만 한 달 치는 모자란다.
     쪽을 넘겨 가며 받되, 받은 날짜가 찾는 구간을 넘어서면 멈춘다. 끝까지
     긁을 이유가 없다.
+
+    받히지 않으면 저장해 둔 것을 쓴다. 그때는 ScheduleError 를 내지 않고
+    대신 언제 받은 것인지를 호출한 쪽이 알 수 있게 한다 — 일정이 통째로
+    빠지는 것보다 며칠 묵은 것이 낫다.
     """
     out: list[dict] = []
-    for page in range(1, max_pages + 1):
-        url = DESTATIS_URL + (f"&gtp=245710_list%253D{page}" if page > 1 else "")
-        got = _destatis_page(_get(url), keep_all)
-        if not got:
-            break
-        out += got
-        if until and max(e["date"] for e in got) > until:
-            break
+    try:
+        for page in range(1, max_pages + 1):
+            url = DESTATIS_URL + (f"&gtp=245710_list%253D{page}"
+                                  if page > 1 else "")
+            got = _destatis_page(_get(url), keep_all)
+            if not got:
+                break
+            out += got
+            if until and max(e["date"] for e in got) > until:
+                break
+    except ScheduleError as exc:
+        cached, when = _cache_read()
+        if not cached:
+            raise
+        raise CachedSchedule(cached, when, str(exc)) from exc
+
     if not out:
+        cached, when = _cache_read()
+        if cached:
+            raise CachedSchedule(cached, when, "c-result 블록을 하나도 못 읽었다")
         raise ScheduleError("Destatis: c-result 블록을 하나도 못 읽었다")
+
+    # 받혔으면 저장해 둔다. 러너에서는 늘 막히므로 이 갱신은 사무소에서
+    # 손으로 돌릴 때만 일어난다.
+    _cache_write(out, datetime.date.today())
     return out
 
 
@@ -730,6 +803,15 @@ def week(today: datetime.date, days: int | None = None,
     for name, fn in sources:
         try:
             got = fn()
+        except CachedSchedule as exc:
+            # 받지는 못했지만 저장해 둔 것이 있다. 통째로 빠지는 것보다 낫다.
+            # 다만 언제 받은 것인지를 밝힌다 — 묵은 자료를 오늘 것처럼 보이게
+            # 하면 안 된다. 화면 경고에 그대로 실린다.
+            got = exc.events
+            when = exc.fetched or "날짜 모름"
+            warn.append(f"{name} 일정을 받지 못해 {when} 에 받아 둔 것을 쓴다 "
+                        f"— {exc.why}")
+            log(f"  [대체] {name} — {exc.why} / {when} 저장분 {len(got)}건")
         except (ScheduleError, ValueError) as exc:
             warn.append(f"{name} 일정을 받지 못했다 — {exc}")
             log(f"  [실패] {name} — {exc}")

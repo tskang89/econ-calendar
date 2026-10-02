@@ -122,12 +122,20 @@ def build(today: datetime.date) -> str:
 
     # 수집이 실패한 것은 화면에도 적는다. 조용히 빈 일정표를 내놓으면
     # '이번 주는 일정이 없다'로 읽힌다.
-    fetch_fail = [w for w in warn if "받지 못했다" in w]
+    # '받지 못했다'(통째로 빠짐)와 '받지 못해 … 받아 둔 것을 쓴다'(저장분으로
+    # 대체)를 둘 다 잡는다. 뒤의 경우는 일정이 빠진 것이 아니라 묵은 것이므로
+    # 꼬리말을 달리 붙인다 — '전부가 아닐 수 있다'고 적으면 틀린 말이 된다.
+    fetch_fail = [w for w in warn if "받지 못" in w]
+    cached_only = fetch_fail and all("받아 둔 것을 쓴다" in w for w in fetch_fail)
     warn_html = ""
     if fetch_fail:
-        warn_html = ('<div class="warn"><b>일부 자료를 받지 못했습니다.</b> '
+        tail = (" 그 사이에 바뀐 일정이 있을 수 있습니다." if cached_only
+                else " 아래 일정이 전부가 아닐 수 있습니다.")
+        head = ("<b>일부 자료는 받아 둔 것을 씁니다.</b> " if cached_only
+                else "<b>일부 자료를 받지 못했습니다.</b> ")
+        warn_html = ('<div class="warn">' + head
                      + " / ".join(esc(w) for w in fetch_fail)
-                     + " 아래 일정이 전부가 아닐 수 있습니다.</div>")
+                     + tail + "</div>")
 
     html_out = TEMPLATE.read_text(encoding="utf-8")
     html_out = html_out.replace("__STAMP__", stamp)
