@@ -66,6 +66,14 @@
    "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
   },
   {
+   "date": "2026-10-15",
+   "kind": "release",
+   "area": "DE",
+   "who": "독일 통계청",
+   "what": "건축비 · 2026년 8월",
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+  },
+  {
    "date": "2026-10-16",
    "kind": "release",
    "area": "DE",
@@ -79,6 +87,14 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "제조업 수주잔고 · 2026년 8월",
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+  },
+  {
+   "date": "2026-10-20",
+   "kind": "release",
+   "area": "DE",
+   "who": "독일 통계청",
+   "what": "기업도산 · 2026년 7월",
    "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
   },
   {
@@ -234,6 +250,14 @@
    "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
   },
   {
+   "date": "2026-11-23",
+   "kind": "release",
+   "area": "DE",
+   "who": "독일 통계청",
+   "what": "기업도산 · 2026년 8월",
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+  },
+  {
    "date": "2026-11-25",
    "kind": "release",
    "area": "DE",
@@ -250,11 +274,27 @@
    "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
   },
   {
+   "date": "2026-11-26",
+   "kind": "release",
+   "area": "DE",
+   "who": "독일 통계청",
+   "what": "명목·실질임금지수 · 2026년 3분기",
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+  },
+  {
    "date": "2026-11-27",
    "kind": "release",
    "area": "DE",
    "who": "독일 통계청",
    "what": "월간 고용통계 · 2026년 10월",
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+  },
+  {
+   "date": "2026-11-27",
+   "kind": "release",
+   "area": "DE",
+   "who": "독일 통계청",
+   "what": "협약임금지수 · 2026년 3분기",
    "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
   },
   {
@@ -303,6 +343,14 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "산업생산 · 2026년 10월",
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+  },
+  {
+   "date": "2026-12-09",
+   "kind": "release",
+   "area": "DE",
+   "who": "독일 통계청",
+   "what": "노동비용지수 · 2026년 3분기",
    "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
   },
   {
@@ -378,11 +426,27 @@
    "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
   },
   {
+   "date": "2026-12-21",
+   "kind": "release",
+   "area": "DE",
+   "who": "독일 통계청",
+   "what": "기업도산 · 2026년 9월",
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+  },
+  {
    "date": "2026-12-23",
    "kind": "release",
    "area": "DE",
    "who": "독일 통계청",
    "what": "제조업 수주 · 2026년 10월",
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+  },
+  {
+   "date": "2026-12-23",
+   "kind": "release",
+   "area": "DE",
+   "who": "독일 통계청",
+   "what": "주거용 부동산 가격 · 2026년 3분기",
    "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
   },
   {
@@ -438,6 +502,14 @@
    "kind": "release",
    "area": "DE",
    "who": "독일 통계청",
+   "what": "건축비 · 2026년 11월",
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+  },
+  {
+   "date": "2027-01-15",
+   "kind": "release",
+   "area": "DE",
+   "who": "독일 통계청",
    "what": "도매물가 · 2026년 12월",
    "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
   },
@@ -455,6 +527,14 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "제조업 고용 · 2026년 11월",
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+  },
+  {
+   "date": "2027-01-19",
+   "kind": "release",
+   "area": "DE",
+   "who": "독일 통계청",
+   "what": "기업도산 · 2026년 10월",
    "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
   },
   {
@@ -522,11 +602,59 @@
    "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
   },
   {
+   "date": "2027-02-22",
+   "kind": "release",
+   "area": "DE",
+   "who": "독일 통계청",
+   "what": "기업도산 · 2026년 11월",
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+  },
+  {
+   "date": "2027-02-25",
+   "kind": "release",
+   "area": "DE",
+   "who": "독일 통계청",
+   "what": "명목·실질임금지수 · 2026년 4분기",
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+  },
+  {
    "date": "2027-02-25",
    "kind": "release",
    "area": "DE",
    "who": "독일 통계청",
    "what": "제조업 수주 · 2026년 12월",
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+  },
+  {
+   "date": "2027-02-26",
+   "kind": "release",
+   "area": "DE",
+   "who": "독일 통계청",
+   "what": "협약임금지수 · 2026년 4분기",
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+  },
+  {
+   "date": "2027-03-11",
+   "kind": "release",
+   "area": "DE",
+   "who": "독일 통계청",
+   "what": "노동비용지수 · 2026년 4분기",
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+  },
+  {
+   "date": "2027-03-22",
+   "kind": "release",
+   "area": "DE",
+   "who": "독일 통계청",
+   "what": "기업도산 · 2026년 12월",
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+  },
+  {
+   "date": "2027-03-25",
+   "kind": "release",
+   "area": "DE",
+   "who": "독일 통계청",
+   "what": "주거용 부동산 가격 · 2026년 4분기",
    "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
   }
  ]

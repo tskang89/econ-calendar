@@ -153,7 +153,13 @@ _KEEP = re.compile(
     r"Produktionsindex|Industrieproduktion|Produktion im Produzierenden|"
     r"Auftragseingang|"
     r"Einzelhandel|Umsatz im|Baugenehmigung|Import|Export|"
-    r"Verarbeitendes Gewerbe|Dienstleistungen", re.I)
+    r"Verarbeitendes Gewerbe|Dienstleistungen|"
+    # 2026-10-05 에 더했다. 임금·노동비용은 ECB 가 물가를 볼 때 가장 눈여겨
+    # 보는 것이고, 기업도산과 주거용 부동산 가격도 경기·물가 쪽에 걸린다.
+    # 'Lohn' 만으로 잡으면 임금세(Lohnsteuer) 같은 것까지 걸리므로 지수
+    # 이름을 그대로 적는다.
+    r"Nominallohn|Reallohn|Tarifindex|Arbeitskostenindex|Verdienste|"
+    r"Insolvenz|Wohnimmobilien|Baupreise", re.I)
 
 
 # 독일 통계청 제목을 우리말로. 자주 나오는 것만 옮기고, 없으면 원문을
@@ -182,6 +188,13 @@ _DE_KO = [
     (r"Einzelhandel\s*—\s*Umsatz", "소매판매"),
     (r"Dienstleistungen\s*—\s*Umsatz, Besch\w*ftigte", "서비스업 매출·고용"),
     (r"Baugenehmigungen?", "건축허가"),
+    (r"Nominallohn-?/?Reallohnindex|Nominallohn|Reallohn", "명목·실질임금지수"),
+    (r"Tarifindex|Tarifverdienste", "협약임금지수"),
+    (r"Arbeitskostenindex", "노동비용지수"),
+    (r"Verdienste und Arbeitskosten|Verdienste", "임금·노동비용"),
+    (r"Insolvenzen", "기업도산"),
+    (r"Preisindizes f\w*r Wohnimmobilien|Wohnimmobilien", "주거용 부동산 가격"),
+    (r"Baupreise f\w*r Wohngeb\w*ude|Baupreise", "건축비"),
     (r"Verarbeitendes Gewerbe.*Besch\w*ftigte", "제조업 고용"),
     (r"Auftragsbestand", "제조업 수주잔고"),
     (r"Verarbeitendes Gewerbe", "제조업"),
