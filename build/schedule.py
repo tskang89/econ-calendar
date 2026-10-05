@@ -162,7 +162,15 @@ _DE_KO = [
     (r"Bruttoinlandsprodukt|Inlandsprodukt", "국내총생산"),
     (r"Monatliche Arbeitsmarktstatistik", "월간 고용통계"),
     (r"Arbeitsmarkt", "고용"),
-    (r"Produktion im Produzierenden Gewerbe|Industrieproduktion", "산업생산"),
+    # Destatis 가 제목을 'Produktion im Produzierenden Gewerbe' 에서 그냥
+    # 'Produktionsindex' 로 줄였다(2026-10-05 확인). 대응표에 없어 10월 7일
+    # 발표가 독일어 그대로 화면에 나갔다.
+    #
+    # 머리에 붙은 것만 잡는다. 'Produktionsindex Bauhauptgewerbe' 같은
+    # 변종이 나오면 산업생산으로 잘못 적는 것보다 독일어로 남겨 두는 것이
+    # 낫다 — 아래 untranslated() 가 그것을 알려 준다.
+    (r"^Produktionsindex|Produktion im Produzierenden Gewerbe|"
+     r"Industrieproduktion", "산업생산"),
     (r"Verarbeitendes Gewerbe\s*—\s*Auftragseingangs- und Umsatzindex",
      "제조업 수주·매출"),
     (r"Auftragseingang", "제조업 수주"),
@@ -263,12 +271,25 @@ def _cache_write(events: list[dict], today: datetime.date) -> None:
     기대는 구조라 그 축소가 그대로 구멍이 된다.
 
     지난 일정은 버린다. 쌓아 두면 파일만 커지고 쓸 데가 없다.
+
+    **합치는 열쇠는 날짜다.** 받아 온 것에 들어 있는 날은 그 날의 옛 줄을
+    통째로 버리고 새것으로 갈아 치운다. 날짜+제목을 열쇠로 쓰다가
+    2026-10-05 에 탈이 났다 — Destatis 가 제목을 바꾸고 내가 대응표를
+    고치자 'Produktionsindex · 8월' 과 '산업생산 · 8월' 이 같은 날에 두 줄로
+    남았다. 제목은 화면에 보이는 꼴이라 열쇠가 될 수 없다. 이름이 바뀌든
+    발표가 취소되든 날짜째로 갈면 함께 잡힌다.
+
+    받아 오지 못한 날은 저장분을 그대로 둔다. 그래서 한 달치만 받는 평소
+    빌드가 다섯 달치를 깎지 않는다. 다만 받아 온 구간 안에서 발표가 아예
+    없어진 날은 그 날이 지나갈 때까지 저장분에 남는다 — 그 날을 받아 온
+    목록에서 알아볼 길이 없다.
     """
     old, _ = _cache_read()
-    merged = {(e["date"], e["what"]): e for e in old}
-    merged.update({(e["date"], e["what"]): e for e in events})
-    keep = sorted((e for k, e in merged.items() if k[0] >= today.isoformat()),
-                  key=lambda e: (e["date"], e["what"]))
+    fresh_days = {e["date"] for e in events}
+    keep = [e for e in old
+            if e["date"] >= today.isoformat() and e["date"] not in fresh_days]
+    keep += [e for e in events if e["date"] >= today.isoformat()]
+    keep.sort(key=lambda e: (e["date"], e["what"]))
     CACHE.parent.mkdir(parents=True, exist_ok=True)
     CACHE.write_text(json.dumps(
         {"fetched": today.isoformat(), "events": keep},
@@ -375,7 +396,10 @@ _ES_KO = [
     (r"Job vacancy", "빈일자리율"),
     (r"Government (deficit|debt)", "재정수지·정부부채"),
     (r"Interest rates \(3 months\)|Short[- ]term interest", "단기금리(3개월)"),
-    (r"Long[- ]term gvt bond yield|Long[- ]term interest", "장기 국채금리"),
+    # 'gvt' 로만 적어 두어 'Long-term government bond yield' 를 놓쳤다.
+    # 2026-10-05 에 새로 넣은 번역 점검이 잡아 준 것이다.
+    (r"Long[- ]term (gvt|government) bond yield|Long[- ]term interest",
+     "장기 국채금리"),
     (r"Production in construction", "건설생산"),
     (r"Volume of sales|Turnover", "매출"),
     (r"Tourism", "관광"),
@@ -939,6 +963,31 @@ def bbk_conference_events(today: datetime.date | None = None) -> list[dict]:
 _MAJOR = re.compile(
     r"GDP|국민계정|국내총생산|소비자물가|인플레이션|HICP|"
     r"유로지역 물가 속보치", re.I)
+
+
+def untranslated(events: list[dict]) -> list[str]:
+    """우리말로 옮기지 못한 제목을 알린다.
+
+    대응표에 없는 제목은 원문을 그대로 내보낸다 — 빠뜨리는 것보다 낫다는
+    판단이었다. 그런데 그러면 **조용히** 새어 나간다. 2026-10-05 에
+    'Produktionsindex' 가 그렇게 나갔고, 소장님이 화면에서 보고 짚어 주셔야
+    알았다. 기관이 제목을 바꿀 때마다 같은 일이 생긴다.
+
+    그래서 한글이 한 자도 없는 제목을 센다. 화면 경고로는 올리지 않는다 —
+    읽는 데 지장이 없고, 고칠 사람은 나다. 빌드 로그와 주간 점검에만 남는다.
+    """
+    msgs = []
+    for e in events:
+        # 행사는 빼야 한다. ECB·분데스방크 컨퍼런스는 원래 이름이 영어이고
+        # 그것이 제 이름이다 — 옮기면 찾아보기가 어려워진다.
+        if e.get("kind") != "release":
+            continue
+        head = e["what"].split(" · ")[0]
+        if re.search(r"[가-힣]", head):
+            continue
+        msgs.append(f"  [번역 없음] {e['who']} {e['date']} — {head!r} "
+                    f"를 대응표에 넣어야 한다")
+    return msgs
 
 
 def is_major(event: dict) -> bool:

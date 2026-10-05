@@ -112,7 +112,8 @@ def build(today: datetime.date) -> str:
     events, warn = schedule.week(today, log=log)
     # 표가 말라 가는 곳. 통화정책 일자(손으로 채우는 것)와 Destatis 저장분
     # (사무소에서만 채울 수 있는 것) 둘 다 여기서 센다.
-    health = policy_dates.health(today) + schedule.cache_health(today)
+    health = (policy_dates.health(today) + schedule.cache_health(today)
+              + schedule.untranslated(events))
     warn += health
     for w in health:
         log(w)
