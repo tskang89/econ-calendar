@@ -66,14 +66,6 @@
    "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
   },
   {
-   "date": "2026-10-15",
-   "kind": "release",
-   "area": "DE",
-   "who": "독일 통계청",
-   "what": "Baupreise für Wohngebäude · 2026년 8월",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
-  },
-  {
    "date": "2026-10-16",
    "kind": "release",
    "area": "DE",
@@ -242,14 +234,6 @@
    "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
   },
   {
-   "date": "2026-11-23",
-   "kind": "release",
-   "area": "DE",
-   "who": "독일 통계청",
-   "what": "Insolvenzen · 2026년 8월",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
-  },
-  {
    "date": "2026-11-25",
    "kind": "release",
    "area": "DE",
@@ -263,22 +247,6 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "제조업 수주 · 2026년 9월",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
-  },
-  {
-   "date": "2026-11-26",
-   "kind": "release",
-   "area": "DE",
-   "who": "독일 통계청",
-   "what": "Nominallohn-/Reallohnindex · 2026년 3분기",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
-  },
-  {
-   "date": "2026-11-27",
-   "kind": "release",
-   "area": "DE",
-   "who": "독일 통계청",
-   "what": "Tarifindex 1 · 2026년 3분기",
    "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
   },
   {
@@ -335,14 +303,6 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "산업생산 · 2026년 10월",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
-  },
-  {
-   "date": "2026-12-09",
-   "kind": "release",
-   "area": "DE",
-   "who": "독일 통계청",
-   "what": "Arbeitskostenindex 1 · 2026년 3분기",
    "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
   },
   {
@@ -418,38 +378,6 @@
    "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
   },
   {
-   "date": "2026-12-21",
-   "kind": "release",
-   "area": "DE",
-   "who": "독일 통계청",
-   "what": "Bevölkerung 1 · 2026년 3분기",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
-  },
-  {
-   "date": "2026-12-21",
-   "kind": "release",
-   "area": "DE",
-   "who": "독일 통계청",
-   "what": "Gewerbeanzeigen · Januar bis September 2026",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
-  },
-  {
-   "date": "2026-12-21",
-   "kind": "release",
-   "area": "DE",
-   "who": "독일 통계청",
-   "what": "Insolvenzen · 2026년 9월",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
-  },
-  {
-   "date": "2026-12-23",
-   "kind": "release",
-   "area": "DE",
-   "who": "독일 통계청",
-   "what": "Preisindizes für Wohnimmobilien · 2026년 3분기",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
-  },
-  {
    "date": "2026-12-23",
    "kind": "release",
    "area": "DE",
@@ -495,6 +423,14 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "제조업 수주·매출 · 2026년 11월",
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+  },
+  {
+   "date": "2027-01-11",
+   "kind": "release",
+   "area": "DE",
+   "who": "독일 통계청",
+   "what": "산업생산 · 2026년 11월",
    "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
   },
   {

@@ -146,7 +146,12 @@ _DAY = re.compile(r"<strong>Ver\w*ffentlichungstermin</strong>\s*:\s*"
 _KEEP = re.compile(
     r"Verbraucherpreis|Erzeugerpreis|Gro\w*handelspreis|Au\w*enhandel|"
     r"Inlandsprodukt|Bruttoinlandsprodukt|Arbeitsmarkt|Erwerbst|"
-    r"Industrieproduktion|Produktion im Produzierenden|Auftragseingang|"
+    # 'Produktionsindex' 를 넣지 않아 독일 산업생산이 통째로 빠져 있었다
+    # (2026-10-05). Destatis 가 제목을 줄였고, 거르는 쪽과 옮기는 쪽 **둘 다**
+    # 고쳐야 했는데 옮기는 쪽만 보고 있었다. 이름이 바뀌면 지표가 조용히
+    # 사라진다 — 번역이 새는 것보다 이쪽이 나쁘다.
+    r"Produktionsindex|Industrieproduktion|Produktion im Produzierenden|"
+    r"Auftragseingang|"
     r"Einzelhandel|Umsatz im|Baugenehmigung|Import|Export|"
     r"Verarbeitendes Gewerbe|Dienstleistungen", re.I)
 
@@ -333,8 +338,15 @@ def destatis_events(keep_all: bool = False, until: str | None = None,
 
     # 받혔으면 저장해 둔다. 러너에서는 늘 막히므로 이 갱신은 사무소에서
     # 손으로 돌릴 때만 일어난다.
-    _cache_write(out, datetime.date.today())
-    return out
+    #
+    # **저장분에는 걸러내기를 통과한 것만 넣는다.** keep_all 로 받은 것을
+    # 그대로 저장하다가 2026-10-05 에 'Baupreise für Wohngebäude' 같은
+    # 지역·부문 통계가 저장분에 섞여 공개 페이지에 떴다. keep_all 은 손으로
+    # 들여다볼 때 쓰는 뒷문이고, 뒷문으로 본 것이 집에 남으면 안 된다.
+    bare = lambda e: {k: v for k, v in e.items() if k != "keep"}
+    _cache_write([bare(e) for e in out if e.get("keep", True)],
+                 datetime.date.today())
+    return [bare(e) for e in out]
 
 
 def _destatis_page(doc: str, keep_all: bool) -> list[dict]:
@@ -346,7 +358,8 @@ def _destatis_page(doc: str, keep_all: bool) -> list[dict]:
             continue
         title = html.unescape(re.sub(r"<[^>]+>", " ", head.group(1)))
         title = re.sub(r"\s+", " ", title).replace(" — ", " — ").strip()
-        if not keep_all and not _KEEP.search(title):
+        keep = bool(_KEEP.search(title))
+        if not keep_all and not keep:
             continue
         period = _PERIOD.search(block)
         d, m, y = day.groups()
@@ -360,6 +373,10 @@ def _destatis_page(doc: str, keep_all: bool) -> list[dict]:
             "who": "독일 통계청",
             "what": what,
             "url": DESTATIS_URL,
+            # 걸러내기를 통과했는지. keep_all 로 받을 때도 이 표를 들고
+            # 가야 저장분에는 통과한 것만 넣을 수 있다. 원문 제목은 여기서
+            # 버려지므로 나중에 다시 가릴 수가 없다.
+            "keep": keep,
         })
     return out
 
