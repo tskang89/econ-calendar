@@ -1,22 +1,6 @@
 {
- "fetched": "2026-10-06",
+ "fetched": "2026-10-07",
  "events": [
-  {
-   "date": "2026-10-06",
-   "kind": "release",
-   "area": "DE",
-   "who": "독일 통계청",
-   "what": "서비스업 매출·고용 · 2026년 7월",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
-  },
-  {
-   "date": "2026-10-06",
-   "kind": "release",
-   "area": "DE",
-   "who": "독일 통계청",
-   "what": "제조업 수주·매출 · 2026년 8월",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
-  },
   {
    "date": "2026-10-07",
    "kind": "release",
@@ -239,6 +223,14 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "고용 · 2026년 3분기",
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+  },
+  {
+   "date": "2026-11-18",
+   "kind": "release",
+   "area": "DE",
+   "who": "독일 통계청",
+   "what": "제조업 수주잔고 · 2026년 9월",
    "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
   },
   {
