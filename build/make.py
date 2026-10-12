@@ -186,10 +186,18 @@ def main() -> int:
     ap.add_argument("--check", action="store_true",
                     help="쓰지 않고 만들어만 본다")
     ap.add_argument("--date", help="기준일을 바꿔 본다 (YYYY-MM-DD)")
+    # Destatis 저장분 채우기. 러너는 검색 경로에서 403 을 받으므로 이것만은
+    # 사무소 회선에서 사람이 눌러야 한다(schedule.destatis_fill 주석).
+    ap.add_argument("--destatis-fill", type=int, nargs="?", const=6,
+                    metavar="개월",
+                    help="Destatis 일정을 그 개월 수(기본 6)만큼 받아 "
+                         "data/destatis.json 을 채운다. 쪽은 만들지 않는다.")
     args = ap.parse_args()
 
     today = (datetime.date.fromisoformat(args.date) if args.date
              else datetime.date.today())
+    if args.destatis_fill:
+        return schedule.destatis_fill(today, args.destatis_fill, log)
     page = build(today)
     # 쪽을 쓰기 전에 자바스크립트가 성한지 본다. 깨졌으면 여기서 멈춘다 —
     # 깨진 쪽을 올리느니 어제 쪽이 그대로 떠 있는 편이 낫다(2026-10-07).

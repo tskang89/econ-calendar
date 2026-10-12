@@ -379,6 +379,42 @@ def destatis_events(keep_all: bool = False, until: str | None = None,
     return [bare(e) for e in out]
 
 
+def destatis_fill(today: datetime.date, months: int = 6, log=print) -> int:
+    """Destatis 저장분을 넉넉히 채운다. **사무소 회선에서 사람이 누른다.**
+
+    러너는 검색 경로에서 403 을 받으므로(위 CACHE 주석) 받히는 회선에서
+    미리 받아 저장소에 넣어 두어야 한다. 평소 빌드는 화면에 쓸 한 달 치만
+    받으므로 이 자리가 따로 있다 — 한 달치로는 다음 달에 또 눌러야 한다.
+
+        python build/make.py --destatis-fill        (여섯 달)
+        python build/make.py --destatis-fill 9      (아홉 달)
+
+    받은 것은 data/destatis.json 에 합쳐 쓰므로, 그 파일을 커밋해 올려야
+    러너가 쓴다. 올리지 않으면 이 PC 에만 남는다.
+    """
+    y, m = divmod(today.month - 1 + months, 12)
+    end = datetime.date(today.year + y, m + 1, 1) - datetime.timedelta(days=1)
+    log(f"Destatis 일정을 {today} ~ {end} 로 받는다 ({months}개월)")
+    try:
+        got = destatis_events(until=end.isoformat(), max_pages=4 * months)
+    except CachedSchedule as exc:
+        log(f"  [실패] {exc.why}")
+        log("         이 회선에서도 막혔다 — 저장분은 그대로 두었다.")
+        return 1
+    except (ScheduleError, ValueError) as exc:
+        log(f"  [실패] {exc}")
+        return 1
+
+    events, fetched = _cache_read()
+    last = max((e["date"] for e in events), default="없음")
+    left = ((datetime.date.fromisoformat(last) - today).days
+            if events else 0)
+    log(f"  받았다 {len(got)}건 → 저장분 {len(events)}건 ({fetched} 기준)")
+    log(f"  마지막 일정 {last} — {left}일 남았다")
+    log("  data/destatis.json 을 커밋해 올릴 것. 올리지 않으면 러너가 못 쓴다.")
+    return 0
+
+
 def _destatis_page(doc: str, keep_all: bool) -> list[dict]:
     blocks = _BLOCK.findall(doc)
     out = []

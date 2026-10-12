@@ -32,7 +32,44 @@
 | 영란은행 | MPC 발표일 | upcoming-mpc-dates 본문 |
 | 한국은행 | 금통위 통화정책방향 | 연도별 목록 `listYear.do` (올해·내년) |
 | Eurostat | 유로지역 주요 지표 발표일 | 일정표가 쓰는 `o/calendars/eventsJson` 종점 |
-| 독일 통계청 | 지표 발표일정 | Veröffentlichungskalender 의 `c-result` 블록 |
+| 독일 통계청 | 지표 발표일정 | Veröffentlichungskalender 의 `c-result` 블록 — **러너에서는 막혀 저장분을 씁니다** |
+
+### 독일 통계청만 손으로 채웁니다
+
+`destatis.de` 가 **일정 검색 경로**(`/SiteGlobals/Forms/Suche/Termine/`)에서
+GitHub 러너에게 403 을 돌려줍니다. 요청 모양을 여섯 가지로 바꿔 봐도
+nginx 기본 403 이고, 같은 주소가 프랑크푸르트 사무소 회선에서는 200 입니다.
+헤더로 풀 수 있는 문제가 아닙니다.
+
+**도메인 전체가 막힌 것은 아닙니다.** 같은 러너가 같은 날 아침 조간
+브리핑에서 `destatis.de` 의 RSS 와 보도자료 본문을 정상으로 받아 옵니다
+(2026-10-12 확인: 보도자료 세 건 1,788~4,128자). 검색 폼에 걸린 봇 차단으로
+보입니다.
+
+그래서 **받히는 회선에서 미리 받아 `data/destatis.json` 에 넣어 두고, 러너는
+그것을 씁니다.** 발표 일정은 다섯 달쯤 앞서 공표되고 좀처럼 바뀌지 않으므로
+묵은 것이어도 쓸 만합니다. 다만 화면에는 언제 받은 것인지 밝힙니다 — 묵은
+자료를 오늘 것처럼 보이게 하면 안 됩니다.
+
+**채우는 법** (사무소 PC, 사무소 회선에서):
+
+```bash
+python build/make.py --destatis-fill     # 여섯 달 치를 받는다
+git add data/destatis.json
+git commit -m "Destatis 일정 저장분 갱신"
+git push
+```
+
+`--destatis-fill 9` 처럼 개월 수를 줄 수 있지만, 통계청이 공표해 둔 데까지만
+받힙니다(2026-10-12 기준 2027-03-25). 쪽은 만들지 않고 저장분만 채웁니다.
+**커밋해 올리지 않으면 이 PC 에만 남습니다.**
+
+평소 빌드가 `--destatis-fill` 을 대신하지 못하는 까닭은, 화면이 한 달치라
+평소에는 한 달치만 받기 때문입니다. 그러면 다음 달에 또 눌러야 합니다.
+
+**언제 누르나.** 저장분의 마지막 일정이 60일 안쪽으로 들어오면 빌드가
+로그와 화면 경고에 적습니다. 두 달 앞서 알려 주므로 분기에 한 번 누르면
+넉넉합니다. 저장분이 말라도 일정표가 텅 비지는 않고 독일 지표만 빠집니다.
 
 **폴란드 NBP·체코 ČNB·스위스 SNB·튀르키예 TCMB 의 통화정책 결정일은 손으로
 적습니다**(`build/policy_dates.py`). 네 곳 모두 자동 수집이 막혀 있습니다 —
@@ -83,6 +120,7 @@ pip install -r requirements.txt
 python build/make.py --check          # 쓰지 않고 만들어만 본다
 python build/make.py --date 2026-11-01  # 기준일을 바꿔 본다
 python build/make.py                  # index.html 갱신
+python build/make.py --destatis-fill  # 독일 통계청 저장분 채우기(사무소 회선)
 ```
 
 ## 아직 없는 것
