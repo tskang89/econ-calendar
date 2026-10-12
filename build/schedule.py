@@ -234,9 +234,26 @@ def _de_period(text: str) -> str:
 
 # 받아 둔 Destatis 일정. GitHub 러너에서 못 받을 때 쓴다.
 #
-# destatis.de 가 Azure IP 를 통째로 막는다(2026-10-02 확인). 요청 모양을 여섯
+# destatis.de 가 러너에게 403 을 준다(2026-10-02 확인). 요청 모양을 여섯
 # 가지로 바꿔 봐도 전부 nginx 기본 403 이고, 같은 주소가 프랑크푸르트 사무소
 # 회선에서는 200 이다. 헤더로 풀 수 있는 문제가 아니다.
+#
+# **처음에 'Azure IP 를 통째로 막는다' 고 적었는데 그것은 틀렸다**
+# (2026-10-12 정정). 막힌 것은 검색 경로 /SiteGlobals/Forms/Suche/ 하나다.
+# 같은 날 아침 조간 브리핑이 같은 러너에서 destatis.de 의 RSS
+# (/SiteGlobals/Functions/RSSFeed/)와 보도자료 세 건
+# (/DE/Presse/Pressemitteilungen/, 각 1,788~4,128자)을 정상으로 받아 왔다.
+# 수집 점검(german-news-brief 의 fetch-check)도 연방통계청 HTML 을 정상으로
+# 찍는다. 검색 폼에 걸린 봇 차단으로 보인다.
+#
+# 그래서 길이 하나 더 있다. 일정마다 ICS 파일이 따로 있고 그 자리는 막히지
+# 않은 쪽이다 —
+#   /DE/Presse/Termine/2026/VPI_endgueltig_09.ics?view=renderICS
+#   → BEGIN:VEVENT / SUMMARY:Verbraucherpreisindex, September 2026 / DTSTART
+# 다만 그 파일 이름을 **모아 오는 곳이 막힌 검색 쪽**이다. 쓰려면 이름표를
+# 저장소에 적어 두고 러너가 달마다 짚어 보게 해야 한다. 날짜가 바뀌었는지
+# 확인하는 값은 있지만, 빌드마다 수십 번 요청이 늘고 새로 생긴 지표는
+# 이름표에 없어 못 본다. 저장분으로 충분하다고 보아 두지 않았다.
 #
 # 그래서 받히는 곳에서 받아 저장소에 넣어 두고, 러너는 그것을 쓴다. 발표
 # 일정은 몇 달 앞서 공표되고 좀처럼 바뀌지 않으므로 묵은 것이어도 쓸 만하다.
