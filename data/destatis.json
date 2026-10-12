@@ -7,7 +7,8 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "소비자물가지수 · 2026년 9월",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582",
+   "ics": "DE/Presse/Termine/2026/VPI_endgueltig_09.ics"
   },
   {
    "date": "2026-10-14",
@@ -15,7 +16,8 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "도매물가 · 2026년 9월",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582",
+   "ics": "DE/Presse/Termine/2026/Grosshandelspreise_09.ics"
   },
   {
    "date": "2026-10-14",
@@ -23,7 +25,8 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "생산자물가 · 2026년 8월",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582",
+   "ics": "DE/Presse/Termine/2026/Erzeugerpreise_Landwirtschaft_08.ics"
   },
   {
    "date": "2026-10-14",
@@ -31,7 +34,8 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "제조업 고용 · 2026년 8월",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582",
+   "ics": "DE/Presse/Termine/2026/Verarbeitendes_Gewerbe_Beschaeftigte_08.ics"
   },
   {
    "date": "2026-10-15",
@@ -39,7 +43,8 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "건축비 · 2026년 8월",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582",
+   "ics": "DE/Presse/Termine/2026/Baupreise_Wohngebaeude_08.ics"
   },
   {
    "date": "2026-10-16",
@@ -47,7 +52,8 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "건축허가 · 2026년 8월",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582",
+   "ics": "DE/Presse/Termine/2026/Baugenehmigungen_08.ics"
   },
   {
    "date": "2026-10-19",
@@ -55,7 +61,8 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "제조업 수주잔고 · 2026년 8월",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582",
+   "ics": "DE/Presse/Termine/2026/Verarbeitendes_Gewerbe_Auftragsbestandsindex_08.ics"
   },
   {
    "date": "2026-10-20",
@@ -63,7 +70,8 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "기업도산 · 2026년 7월",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582",
+   "ics": "DE/Presse/Termine/2026/Insolvenzen_07.ics"
   },
   {
    "date": "2026-10-20",
@@ -71,15 +79,17 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "생산자물가 · 2026년 9월",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582",
+   "ics": "DE/Presse/Termine/2026/Erzeugerpreise_09.ics"
   },
   {
    "date": "2026-10-23",
    "kind": "release",
    "area": "DE",
    "who": "독일 통계청",
-   "what": "제조업 수주 · 2026년 8월",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+   "what": "건설업 수주·매출 · 2026년 8월",
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582",
+   "ics": "DE/Presse/Termine/2026/Bauhauptgewerbe_Auftragseingangsindex_08.ics"
   },
   {
    "date": "2026-10-30",
@@ -87,7 +97,8 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "고용 · 2026년 3분기",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582",
+   "ics": "DE/Presse/Termine/2026/Vierteljaehrliche_Arbeitsmarktstatistik_schnell_q3.ics"
   },
   {
    "date": "2026-10-30",
@@ -95,7 +106,8 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "국내총생산 · 2026년 3분기",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582",
+   "ics": "DE/Presse/Termine/2026/BIP_Schnellmeldung_q3.ics"
   },
   {
    "date": "2026-10-30",
@@ -103,7 +115,8 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "소비자물가지수 속보치 · 2026년 10월",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582",
+   "ics": "DE/Presse/Termine/2026/VPI_vorlaeufig_10.ics"
   },
   {
    "date": "2026-10-30",
@@ -111,7 +124,8 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "수출입물가지수 · 2026년 9월",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582",
+   "ics": "DE/Presse/Termine/2026/Aussenhandelspreise_09.ics"
   },
   {
    "date": "2026-10-30",
@@ -119,7 +133,8 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "월간 고용통계 · 2026년 9월",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582",
+   "ics": "DE/Presse/Termine/2026/Erwerbstaetige_Erwerbslose_Erwerbslosenquoten_09.ics"
   },
   {
    "date": "2026-11-02",
@@ -127,7 +142,8 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "소매판매 · 2026년 9월",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582",
+   "ics": "DE/Presse/Termine/2026/Einzelhandel_Umsatz_09.ics"
   },
   {
    "date": "2026-11-05",
@@ -135,7 +151,8 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "서비스업 매출·고용 · 2026년 8월",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582",
+   "ics": "DE/Presse/Termine/2026/Dienstleistungen_Umsatz_Beschaeftigte_08.ics"
   },
   {
    "date": "2026-11-05",
@@ -143,7 +160,8 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "제조업 수주·매출 · 2026년 9월",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582",
+   "ics": "DE/Presse/Termine/2026/Verarbeitendes_Gewerbe_Auftragseingangsindex_09.ics"
   },
   {
    "date": "2026-11-06",
@@ -151,7 +169,8 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "산업생산 · 2026년 9월",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582",
+   "ics": "DE/Presse/Termine/2026/Produktionsindex_09.ics"
   },
   {
    "date": "2026-11-09",
@@ -159,7 +178,8 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "대외교역 · 2026년 9월",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582",
+   "ics": "DE/Presse/Termine/2026/Aussenhandel_09.ics"
   },
   {
    "date": "2026-11-11",
@@ -167,7 +187,8 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "소비자물가지수 · 2026년 10월",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582",
+   "ics": "DE/Presse/Termine/2026/VPI_endgueltig_10.ics"
   },
   {
    "date": "2026-11-13",
@@ -175,7 +196,8 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "도매물가 · 2026년 10월",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582",
+   "ics": "DE/Presse/Termine/2026/Grosshandelspreise_10.ics"
   },
   {
    "date": "2026-11-13",
@@ -183,7 +205,8 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "생산자물가 · 2026년 9월",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582",
+   "ics": "DE/Presse/Termine/2026/Erzeugerpreise_Landwirtschaft_09.ics"
   },
   {
    "date": "2026-11-13",
@@ -191,7 +214,8 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "제조업 고용 · 2026년 9월",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582",
+   "ics": "DE/Presse/Termine/2026/Verarbeitendes_Gewerbe_Beschaeftigte_09.ics"
   },
   {
    "date": "2026-11-18",
@@ -199,7 +223,8 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "건축허가 · 2026년 9월",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582",
+   "ics": "DE/Presse/Termine/2026/Baugenehmigungen_09.ics"
   },
   {
    "date": "2026-11-18",
@@ -207,7 +232,8 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "고용 · 2026년 3분기",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582",
+   "ics": "DE/Presse/Termine/2026/Vierteljaehrliche_Arbeitsmarktstatistik_tgE_q3.ics"
   },
   {
    "date": "2026-11-18",
@@ -215,7 +241,8 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "제조업 수주잔고 · 2026년 9월",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582",
+   "ics": "DE/Presse/Termine/2026/Verarbeitendes_Gewerbe_Auftragsbestandsindex_09.ics"
   },
   {
    "date": "2026-11-20",
@@ -223,7 +250,8 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "생산자물가 · 2026년 10월",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582",
+   "ics": "DE/Presse/Termine/2026/Erzeugerpreise_10.ics"
   },
   {
    "date": "2026-11-23",
@@ -231,7 +259,8 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "기업도산 · 2026년 8월",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582",
+   "ics": "DE/Presse/Termine/2026/Insolvenzen_08.ics"
   },
   {
    "date": "2026-11-25",
@@ -239,7 +268,8 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "국내총생산 · 2026년 3분기",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582",
+   "ics": "DE/Presse/Termine/2026/BIP_tgE_q3.ics"
   },
   {
    "date": "2026-11-26",
@@ -247,7 +277,8 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "명목·실질임금지수 · 2026년 3분기",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582",
+   "ics": "DE/Presse/Termine/2026/Nominal_Reallohnindex_q3.ics"
   },
   {
    "date": "2026-11-27",
@@ -255,7 +286,8 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "월간 고용통계 · 2026년 10월",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582",
+   "ics": "DE/Presse/Termine/2026/Erwerbstaetige_Erwerbslose_Erwerbslosenquoten_10.ics"
   },
   {
    "date": "2026-11-27",
@@ -263,7 +295,8 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "협약임금지수 · 2026년 3분기",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582",
+   "ics": "DE/Presse/Termine/2026/Tarifindex_q3.ics"
   },
   {
    "date": "2026-11-30",
@@ -271,7 +304,8 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "소매판매 · 2026년 10월",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582",
+   "ics": "DE/Presse/Termine/2026/Einzelhandel_Umsatz_10.ics"
   },
   {
    "date": "2026-11-30",
@@ -279,7 +313,8 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "소비자물가지수 속보치 · 2026년 11월",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582",
+   "ics": "DE/Presse/Termine/2026/VPI_vorlaeufig_11.ics"
   },
   {
    "date": "2026-11-30",
@@ -287,7 +322,8 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "수출입물가지수 · 2026년 10월",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582",
+   "ics": "DE/Presse/Termine/2026/Aussenhandelspreise_10.ics"
   },
   {
    "date": "2026-12-04",
@@ -295,7 +331,8 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "서비스업 매출·고용 · 2026년 9월",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582",
+   "ics": "DE/Presse/Termine/2026/Dienstleistungen_Umsatz_Beschaeftigte_09.ics"
   },
   {
    "date": "2026-12-07",
@@ -303,7 +340,8 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "제조업 수주·매출 · 2026년 10월",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582",
+   "ics": "DE/Presse/Termine/2026/Verarbeitendes_Gewerbe_Auftragseingangsindex_10.ics"
   },
   {
    "date": "2026-12-08",
@@ -311,7 +349,8 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "산업생산 · 2026년 10월",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582",
+   "ics": "DE/Presse/Termine/2026/Produktionsindex_10.ics"
   },
   {
    "date": "2026-12-09",
@@ -319,7 +358,8 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "노동비용지수 · 2026년 3분기",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582",
+   "ics": "DE/Presse/Termine/2026/Arbeitskostenindex_q3.ics"
   },
   {
    "date": "2026-12-09",
@@ -327,7 +367,8 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "대외교역 · 2026년 10월",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582",
+   "ics": "DE/Presse/Termine/2026/Aussenhandel_10.ics"
   },
   {
    "date": "2026-12-10",
@@ -335,7 +376,8 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "소비자물가지수 · 2026년 11월",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582",
+   "ics": "DE/Presse/Termine/2026/VPI_endgueltig_11.ics"
   },
   {
    "date": "2026-12-11",
@@ -343,7 +385,8 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "생산자물가 · 2026년 10월",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582",
+   "ics": "DE/Presse/Termine/2026/Erzeugerpreise_Landwirtschaft_10.ics"
   },
   {
    "date": "2026-12-14",
@@ -351,7 +394,8 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "제조업 고용 · 2026년 10월",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582",
+   "ics": "DE/Presse/Termine/2026/Verarbeitendes_Gewerbe_Beschaeftigte_10.ics"
   },
   {
    "date": "2026-12-15",
@@ -359,7 +403,8 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "도매물가 · 2026년 11월",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582",
+   "ics": "DE/Presse/Termine/2026/Grosshandelspreise_11.ics"
   },
   {
    "date": "2026-12-17",
@@ -367,7 +412,8 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "제조업 수주잔고 · 2026년 10월",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582",
+   "ics": "DE/Presse/Termine/2026/Verarbeitendes_Gewerbe_Auftragsbestandsindex_10.ics"
   },
   {
    "date": "2026-12-18",
@@ -375,7 +421,8 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "건축허가 · 2026년 10월",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582",
+   "ics": "DE/Presse/Termine/2026/Baugenehmigungen_10.ics"
   },
   {
    "date": "2026-12-18",
@@ -383,7 +430,8 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "생산자물가 · 2026년 11월",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582",
+   "ics": "DE/Presse/Termine/2026/Erzeugerpreise_11.ics"
   },
   {
    "date": "2026-12-18",
@@ -391,7 +439,8 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "생산자물가 · 2026년 3분기",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582",
+   "ics": "DE/Presse/Termine/2026/Erzeugerpreise_Dienstleistungen_q3.ics"
   },
   {
    "date": "2026-12-21",
@@ -399,15 +448,17 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "기업도산 · 2026년 9월",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582",
+   "ics": "DE/Presse/Termine/2026/Insolvenzen_09.ics"
   },
   {
    "date": "2026-12-23",
    "kind": "release",
    "area": "DE",
    "who": "독일 통계청",
-   "what": "제조업 수주 · 2026년 10월",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+   "what": "건설업 수주·매출 · 2026년 10월",
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582",
+   "ics": "DE/Presse/Termine/2026/Bauhauptgewerbe_Auftragseingangsindex_10.ics"
   },
   {
    "date": "2026-12-23",
@@ -415,7 +466,8 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "주거용 부동산 가격 · 2026년 3분기",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582",
+   "ics": "DE/Presse/Termine/2026/Preisindizes_Wohnimmobilien_q3.ics"
   },
   {
    "date": "2026-12-30",
@@ -423,7 +475,8 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "수출입물가지수 · 2026년 11월",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582",
+   "ics": "DE/Presse/Termine/2026/Aussenhandelspreise_11.ics"
   },
   {
    "date": "2027-01-05",
@@ -431,7 +484,8 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "소비자물가지수 속보치 · 2026년 12월",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582",
+   "ics": "DE/Presse/Termine/2026/VPI_vorlaeufig_12.ics"
   },
   {
    "date": "2027-01-05",
@@ -439,7 +493,8 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "월간 고용통계 · 2026년 11월",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582",
+   "ics": "DE/Presse/Termine/2026/Erwerbstaetige_Erwerbslose_Erwerbslosenquoten_11.ics"
   },
   {
    "date": "2027-01-08",
@@ -447,7 +502,8 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "대외교역 · 2026년 11월",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582",
+   "ics": "DE/Presse/Termine/2026/Aussenhandel_11.ics"
   },
   {
    "date": "2027-01-08",
@@ -455,7 +511,8 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "제조업 수주·매출 · 2026년 11월",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582",
+   "ics": "DE/Presse/Termine/2026/Verarbeitendes_Gewerbe_Auftragseingangsindex_11.ics"
   },
   {
    "date": "2027-01-11",
@@ -463,7 +520,8 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "산업생산 · 2026년 11월",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582",
+   "ics": "DE/Presse/Termine/2026/Produktionsindex_11.ics"
   },
   {
    "date": "2027-01-15",
@@ -471,7 +529,8 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "건축비 · 2026년 11월",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582",
+   "ics": "DE/Presse/Termine/2026/Baupreise_Wohngebaeude_11.ics"
   },
   {
    "date": "2027-01-15",
@@ -479,7 +538,8 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "도매물가 · 2026년 12월",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582",
+   "ics": "DE/Presse/Termine/2026/Grosshandelspreise_12.ics"
   },
   {
    "date": "2027-01-15",
@@ -487,7 +547,8 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "소비자물가지수 · 2026년 12월",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582",
+   "ics": "DE/Presse/Termine/2026/VPI_endgueltig_12.ics"
   },
   {
    "date": "2027-01-15",
@@ -495,7 +556,8 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "제조업 고용 · 2026년 11월",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582",
+   "ics": "DE/Presse/Termine/2026/Verarbeitendes_Gewerbe_Beschaeftigte_11.ics"
   },
   {
    "date": "2027-01-19",
@@ -503,7 +565,8 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "기업도산 · 2026년 10월",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582",
+   "ics": "DE/Presse/Termine/2026/Insolvenzen_10.ics"
   },
   {
    "date": "2027-01-20",
@@ -511,7 +574,8 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "생산자물가 · 2026년 12월",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582",
+   "ics": "DE/Presse/Termine/2026/Erzeugerpreise_12.ics"
   },
   {
    "date": "2027-01-20",
@@ -519,15 +583,17 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "제조업 수주잔고 · 2026년 11월",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582",
+   "ics": "DE/Presse/Termine/2026/Verarbeitendes_Gewerbe_Auftragsbestandsindex_11.ics"
   },
   {
    "date": "2027-01-25",
    "kind": "release",
    "area": "DE",
    "who": "독일 통계청",
-   "what": "제조업 수주 · 2026년 11월",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+   "what": "건설업 수주·매출 · 2026년 11월",
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582",
+   "ics": "DE/Presse/Termine/2026/Bauhauptgewerbe_Auftragseingangsindex_11.ics"
   },
   {
    "date": "2027-01-29",
@@ -535,7 +601,8 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "수출입물가지수 · 2026년 12월",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582",
+   "ics": "DE/Presse/Termine/2026/Aussenhandelspreise_12.ics"
   },
   {
    "date": "2027-02-05",
@@ -543,7 +610,8 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "제조업 수주·매출 · 2026년 12월",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582",
+   "ics": "DE/Presse/Termine/2026/Verarbeitendes_Gewerbe_Auftragseingangsindex_12.ics"
   },
   {
    "date": "2027-02-09",
@@ -551,7 +619,8 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "대외교역 · 2026년 12월",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582",
+   "ics": "DE/Presse/Termine/2026/Aussenhandel_12.ics"
   },
   {
    "date": "2027-02-15",
@@ -559,7 +628,8 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "제조업 고용 · 2026년 12월",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582",
+   "ics": "DE/Presse/Termine/2026/Verarbeitendes_Gewerbe_Beschaeftigte_12.ics"
   },
   {
    "date": "2027-02-18",
@@ -567,7 +637,8 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "제조업 수주잔고 · 2026년 12월",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582",
+   "ics": "DE/Presse/Termine/2026/Verarbeitendes_Gewerbe_Auftragsbestandsindex_12.ics"
   },
   {
    "date": "2027-02-22",
@@ -575,7 +646,17 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "기업도산 · 2026년 11월",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582",
+   "ics": "DE/Presse/Termine/2026/Insolvenzen_11.ics"
+  },
+  {
+   "date": "2027-02-25",
+   "kind": "release",
+   "area": "DE",
+   "who": "독일 통계청",
+   "what": "건설업 수주·매출 · 2026년 12월",
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582",
+   "ics": "DE/Presse/Termine/2026/Bauhauptgewerbe_Auftragseingangsindex_12.ics"
   },
   {
    "date": "2027-02-25",
@@ -583,15 +664,8 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "명목·실질임금지수 · 2026년 4분기",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
-  },
-  {
-   "date": "2027-02-25",
-   "kind": "release",
-   "area": "DE",
-   "who": "독일 통계청",
-   "what": "제조업 수주 · 2026년 12월",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582",
+   "ics": "DE/Presse/Termine/2026/Nominal_Reallohnindex_q4.ics"
   },
   {
    "date": "2027-02-26",
@@ -599,7 +673,8 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "협약임금지수 · 2026년 4분기",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582",
+   "ics": "DE/Presse/Termine/2026/Tarifindex_q4.ics"
   },
   {
    "date": "2027-03-11",
@@ -607,7 +682,8 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "노동비용지수 · 2026년 4분기",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582",
+   "ics": "DE/Presse/Termine/2026/Arbeitskostenindex_q4.ics"
   },
   {
    "date": "2027-03-22",
@@ -615,7 +691,8 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "기업도산 · 2026년 12월",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582",
+   "ics": "DE/Presse/Termine/2026/Insolvenzen_12.ics"
   },
   {
    "date": "2027-03-25",
@@ -623,7 +700,8 @@
    "area": "DE",
    "who": "독일 통계청",
    "what": "주거용 부동산 가격 · 2026년 4분기",
-   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582"
+   "url": "https://www.destatis.de/SiteGlobals/Forms/Suche/Termine/DE/Terminsuche_Formular.html?nn=250582",
+   "ics": "DE/Presse/Termine/2026/Preisindizes_Wohnimmobilien_q4.ics"
   }
  ]
 }

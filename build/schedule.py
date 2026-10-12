@@ -136,6 +136,10 @@ _BLOCK = re.compile(r'<div\s+class="c-result c-result--event-preview.*?'
                     r'(?=<div\s+class="c-result c-result--event-preview|</body)',
                     re.S)
 _HEAD = re.compile(r'class="c-result__heading">(.*?)</h3>', re.S)
+# 일정마다 달력 파일(.ics)이 하나씩 붙어 있다. 그 주소는 검색 경로가 아니라
+# /DE/Presse/ 아래이고, 그쪽은 러너에서도 막히지 않는다. 이름표를 저장분에
+# 함께 적어 두면 다음 회차부터 러너가 그것을 짚어 날짜를 스스로 확인한다.
+_ICS = re.compile(r'href="/?(DE/Presse/Termine/\d{4}/[^"]+?\.ics)')
 _PERIOD = re.compile(r"<strong>Berichtzeitraum</strong>\s*:\s*([^<]+)")
 _DAY = re.compile(r"<strong>Ver\w*ffentlichungstermin</strong>\s*:\s*"
                   r"(\d{2})\.(\d{2})\.(\d{4})")
@@ -184,6 +188,10 @@ _DE_KO = [
      r"Industrieproduktion", "산업생산"),
     (r"Verarbeitendes Gewerbe\s*—\s*Auftragseingangs- und Umsatzindex",
      "제조업 수주·매출"),
+    # 건설업이 제조업으로 적히고 있었다(2026-10-12 발견). 'Bauhauptgewerbe
+    # — Auftragseingangs- und Umsatzindex' 가 아래 Auftragseingang 규칙에
+    # 먼저 걸려 '제조업 수주' 로 나갔다. 주된 건설업이지 제조업이 아니다.
+    (r"^Bauhauptgewerbe", "건설업 수주·매출"),
     (r"Auftragseingang", "제조업 수주"),
     (r"Einzelhandel\s*—\s*Umsatz", "소매판매"),
     (r"Dienstleistungen\s*—\s*Umsatz, Besch\w*ftigte", "서비스업 매출·고용"),
@@ -358,12 +366,14 @@ def destatis_events(keep_all: bool = False, until: str | None = None,
         cached, when = _cache_read()
         if not cached:
             raise
-        raise CachedSchedule(cached, when, str(exc)) from exc
+        raise CachedSchedule(*_fallback(cached, when, str(exc), until)) from exc
 
     if not out:
         cached, when = _cache_read()
         if cached:
-            raise CachedSchedule(cached, when, "c-result 블록을 하나도 못 읽었다")
+            raise CachedSchedule(*_fallback(cached, when,
+                                            "c-result 블록을 하나도 못 읽었다",
+                                            until))
         raise ScheduleError("Destatis: c-result 블록을 하나도 못 읽었다")
 
     # 받혔으면 저장해 둔다. 러너에서는 늘 막히므로 이 갱신은 사무소에서
@@ -377,6 +387,170 @@ def destatis_events(keep_all: bool = False, until: str | None = None,
     _cache_write([bare(e) for e in out if e.get("keep", True)],
                  datetime.date.today())
     return [bare(e) for e in out]
+
+
+# ------------------------------------------------- 러너에서 스스로 새로 받기
+#
+# 검색 경로는 막혔지만 일정마다 붙은 달력 파일(.ics)은 /DE/Presse/ 아래라
+# 러너에서도 열린다. 그래서 저장분을 '얼린 눈금' 이 아니라 '씨앗' 으로 쓴다 —
+# 이름표를 들고 가서 날짜를 다시 확인하고, 저장분이 끝나는 자리 너머는
+# 다음 기준월을 짚어 이어 붙인다(2026-10-12 소장님 지시: 손으로 채우는
+# 자리를 두지 말 것).
+#
+# 파일 하나는 이렇게 생겼다.
+#   BEGIN:VEVENT / SUMMARY:Verbraucherpreisindex, September 2026 (…) /
+#   DTSTART:20261012T220000Z
+# DTSTART 는 베를린 자정이라 UTC 로는 전날 22시(겨울은 23시)다. 날짜만 쓰므로
+# 베를린으로 되돌려 읽는다.
+ICS_BASE = "https://www.destatis.de/"
+ICS_MAX = 60            # 한 회차에 짚어 볼 파일 수 상한
+_ICS_START = re.compile(r"^DTSTART[^:]*:(\d{8})T(\d{2})", re.M)
+_ICS_SUM = re.compile(r"^SUMMARY:(.+)$", re.M)
+_ICS_SLUG = re.compile(r"^(DE/Presse/Termine/)(\d{4})/(.+?)_(\d\d|q\d)\.ics$")
+
+
+def _ics_read(path: str) -> tuple[str, str] | None:
+    """(날짜, SUMMARY). 없거나 깨졌으면 None."""
+    # view=renderICS 를 붙여야 달력 파일이 온다. 빼면 같은 주소가 200 으로
+    # 보통 쪽(67KB HTML)을 돌려주어 DTSTART 가 없다.
+    try:
+        doc = _get(f"{ICS_BASE}{path}?view=renderICS", tries=1)
+    except ScheduleError:
+        return None
+    day, summary = _ICS_START.search(doc), _ICS_SUM.search(doc)
+    if not day:
+        return None
+    when = datetime.datetime.strptime(day.group(1), "%Y%m%d")
+    # UTC 22~23시는 베를린의 다음 날 0시다.
+    if int(day.group(2)) >= 21:
+        when += datetime.timedelta(days=1)
+    return when.date().isoformat(), (summary.group(1).strip()
+                                     if summary else "")
+
+
+def _ics_period(summary: str) -> str | None:
+    """'Verbraucherpreisindex, September 2026 (…)' → '2026년 9월'.
+
+    이름은 여기서 가져오지 않는다. 달력 파일의 SUMMARY 는 검색 결과의 제목
+    보다 거칠다 — 'Verbraucherpreisindex' 하나로 속보치와 확정치를 가리지
+    못하고, 'Bauhauptgewerbe — Auftragseingangs- und Umsatzindex' 가 그냥
+    'Bauhauptgewerbe' 로 온다. 이름은 **같은 이름표를 쓰는 저장분 항목**에서
+    물려받는다. 이름표(VPI_vorlaeufig 대 VPI_endgueltig)가 그 둘을 이미
+    가르고 있으므로 그편이 정확하다.
+    """
+    text = re.sub(r"\s*\([^)]*\)\s*$", "", summary).strip()
+    if "," not in text:
+        return None
+    return _de_period(text.rsplit(",", 1)[1].strip())
+
+
+def _ics_next(slug: str, step: int) -> str | None:
+    """이름표의 기준월을 step 달 뒤로 민다. 분기물은 건드리지 않는다."""
+    m = _ICS_SLUG.match(slug)
+    if not m or m.group(4).startswith("q"):
+        return None
+    head, year, stem, mm = m.groups()
+    month = int(mm) + step
+    year = int(year) + (month - 1) // 12
+    month = (month - 1) % 12 + 1
+    return f"{head}{year}/{stem}_{month:02d}.ics"
+
+
+def _ics_refresh(events: list[dict], today: datetime.date, until: str,
+                 log=print) -> tuple[list[dict], int]:
+    """저장분의 날짜를 ICS 로 확인하고, 끝 너머는 이어 붙인다.
+
+    돌려주는 것은 (일정, 짚어 본 파일 수). 하나도 열리지 않으면 저장분을
+    그대로 돌려준다 — 그때는 ICS 쪽도 막힌 것이므로 손댈 것이 없다.
+    """
+    by_date = {e["date"]: e for e in events}
+    probed = hit = moved = added = 0
+
+    # ① 화면에 실릴 구간만 본다. 저장분 전체를 짚으면 날마다 여든 번씩
+    #    남의 서버를 두드리는데, 반년 뒤 일정이 오늘 바뀌었는지는 오늘
+    #    알 필요가 없다. 그 구간은 날이 다가오면 저절로 걸린다.
+    for e in sorted(events, key=lambda x: x["date"]):
+        if probed >= ICS_MAX or not e.get("ics"):
+            continue
+        if not (today.isoformat() <= e["date"] <= until):
+            continue
+        probed += 1
+        got = _ics_read(e["ics"])
+        if not got:
+            continue
+        hit += 1
+        if got[0] != e["date"]:
+            log(f"    {e['what']} — {e['date']} → {got[0]} 로 바뀌었다")
+            e["date"] = got[0]
+            moved += 1
+
+    # ② 저장분이 끝나는 자리 너머. 이름표의 기준월을 밀어 가며 짚는다.
+    #    저장분이 넉넉하면 여기는 한 번도 돌지 않는다.
+    last = max((e["date"] for e in events), default="")
+    if last < until:
+        known = {(e["date"], e["what"]) for e in events}
+        stems: dict[str, dict] = {}
+        for e in sorted(events, key=lambda x: x["date"]):
+            if e.get("ics"):
+                stems[_ICS_SLUG.sub(r"\3", e["ics"])] = e      # 가장 늦은 것
+        for e in stems.values():
+            name = e["what"].split(" · ")[0]
+            for step in (1, 2, 3):
+                if probed >= ICS_MAX:
+                    break
+                nxt = _ics_next(e["ics"], step)
+                if not nxt:
+                    break
+                probed += 1
+                got = _ics_read(nxt)
+                if got is None:
+                    # 해가 바뀌면 폴더도 바뀐다 — 2026년 12월분 확정치는
+                    # /2027/ 아래에 있다. 폴더만 한 해 밀어 다시 본다.
+                    alt = _ICS_SLUG.sub(
+                        lambda m: f"{m.group(1)}{int(m.group(2)) + 1}/"
+                                  f"{m.group(3)}_{m.group(4)}.ics", nxt)
+                    probed += 1
+                    got = _ics_read(alt)
+                    if got is None:
+                        continue
+                    nxt = alt
+                hit += 1
+                period = _ics_period(got[1])
+                what = f"{name} · {period}" if period else name
+                if (got[0], what) in known:
+                    continue
+                known.add((got[0], what))
+                events.append({"date": got[0], "kind": "release", "area": "DE",
+                               "who": "독일 통계청", "what": what,
+                               "url": DESTATIS_URL, "ics": nxt})
+                added += 1
+
+    if not hit:
+        return events, 0
+    log(f"  ICS 로 {hit}/{probed}건을 짚었다 — 날짜 바뀜 {moved}, 새로 붙임 {added}")
+    events.sort(key=lambda e: (e["date"], e["what"]))
+    return events, hit
+
+
+def _fallback(cached: list[dict], when: str | None, why: str,
+              until: str | None, log=print) -> tuple[list[dict], str | None, str]:
+    """검색이 막혔을 때 쓸 것을 고른다.
+
+    ICS 가 열리면 저장분의 날짜를 거기서 확인한 것이므로 '묵은 자료' 가
+    아니다. 화면 경고 문구도 그에 맞게 바꾼다 — 사실과 다른 고지를 띄우면
+    읽는 사람이 쓸데없이 의심하게 된다.
+    """
+    today = datetime.date.today()
+    events, hit = _ics_refresh(cached, today,
+                               until or (today + datetime.timedelta(days=60)
+                                         ).isoformat(), log)
+    if hit:
+        _cache_write([{k: v for k, v in e.items() if k != "keep"}
+                      for e in events], today)
+        return events, today.isoformat(), (
+            f"검색 경로가 막혀({why}) 일정마다 붙은 달력 파일(.ics)에서 "
+            f"{hit}건을 직접 확인했다")
+    return cached, when, why
 
 
 def destatis_fill(today: datetime.date, months: int = 6, log=print) -> int:
@@ -439,6 +613,9 @@ def _destatis_page(doc: str, keep_all: bool) -> list[dict]:
             "who": "독일 통계청",
             "what": what,
             "url": DESTATIS_URL,
+            # 달력 파일 이름표. 러너가 날짜를 다시 확인할 때 쓴다.
+            "ics": (_ICS.search(block).group(1)
+                    if _ICS.search(block) else None),
             # 걸러내기를 통과했는지. keep_all 로 받을 때도 이 표를 들고
             # 가야 저장분에는 통과한 것만 넣을 수 있다. 원문 제목은 여기서
             # 버려지므로 나중에 다시 가릴 수가 없다.
