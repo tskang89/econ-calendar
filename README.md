@@ -29,6 +29,7 @@
 |---|---|---|
 | ECB | 이사회·통화정책회의 | 공식 일정표의 `<dt>/<dd>` |
 | ECB | **금융안정보고서 발간일** | 보고서 쪽 소개글의 `next release set for …` 한 문장 — 연 두 번(5월·11월)이라 늘 다음 호 한 줄입니다 |
+| ECB | **경제전망보고서 발간일** | 보고서 쪽의 `Next release: Issue 8, 2026 - 14 January 2027` 한 줄 — 통화정책회의 두 주 뒤, 한 해 여덟 번입니다 |
 | 미국 연준 | FOMC | `fomccalendars.htm` 의 `fomc-meeting__month`·`__date` |
 | 영란은행 | MPC 발표일 | upcoming-mpc-dates 본문 |
 | 한국은행 | 금통위 통화정책방향 | 연도별 목록 `listYear.do` (올해·내년) |

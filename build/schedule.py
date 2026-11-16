@@ -12,6 +12,8 @@
            제목·기준기간·발표일이 들어 있다.
   ECB FSR  금융안정보고서 발간일. 회의도 행사도 아니어서 위의 ECB 일정표에
            없고, 보고서 쪽 소개글 한 문장에만 적혀 있다. 연 두 번이다.
+  ECB EB   경제전망보고서(Economic Bulletin) 발간일. 같은 꼴로 '다음 발간'
+           줄에만 적혀 있다. 통화정책회의 두 주 뒤, 한 해 여덟 번이다.
 
 유로지역 지표(HICP·GDP) 발표일은 넣지 못했다. Eurostat 의 release calendar
 페이지가 자바스크립트로 그려지고, 공개 API 에 캘린더 경로가 없다. 독일
@@ -1259,6 +1261,41 @@ def fsr_events() -> list[dict]:
              "url": FSR_URL}]
 
 
+# ------------------------------------------------- ECB 경제전망보고서
+# 금융안정보고서와 같은 까닭으로 빠져 있었다 — 발간물이라 이사회 일정표에도
+# 컨퍼런스 쪽에도 없다. ECB 는 이것도 보고서 쪽 '다음 발간' 줄에만 적는다.
+#
+#   <li>Next release: Issue 8, 2026 - 14 January 2027</li>
+#
+# 호 번호가 함께 있어 그대로 쓴다. 금융안정보고서처럼 달로 호를 만들 수
+# 없다 — 한 해 여덟 번 내고 번호가 발간 달과 어긋난다(2026년 8호가 2027년
+# 1월에 나온다). 통화정책회의 두 주 뒤에 내므로 한 달 구간에 드는 날이
+# 금융안정보고서보다 훨씬 많다.
+#
+# 2026-11-16 에 더했다.
+EB_URL = "https://www.ecb.europa.eu/press/economic-bulletin/html/index.en.html"
+_EB_NEXT = re.compile(r"Next\s+release:\s*Issue\s*(\d+),\s*(\d{4})\s*[-–—]\s*"
+                      r"(\d{1,2})\s+([A-Za-z]+)\s+(\d{4})", re.I)
+
+
+def eb_events() -> list[dict]:
+    """ECB 경제전망보고서(Economic Bulletin) 발간일. 늘 한 줄(다음 호)이다."""
+    doc = _get(EB_URL)
+    m = _EB_NEXT.search(doc)
+    if not m:
+        raise ScheduleError("ECB 경제전망보고서: 다음 발간일을 적은 줄을 "
+                            "읽지 못했다 — 쪽의 문구가 바뀌었다")
+    month = m.group(4).capitalize()
+    if month not in _ES_MONTH:
+        raise ScheduleError(f"ECB 경제전망보고서: 달 이름을 모른다 — {month!r}")
+    day = datetime.date(int(m.group(5)), _ES_MONTH[month], int(m.group(3)))
+    return [{"date": day.isoformat(), "kind": "publication", "area": "EZ",
+             "who": "ECB",
+             "what": ("경제전망보고서(Economic Bulletin) · "
+                      f"{m.group(2)}년 {m.group(1)}호"),
+             "url": EB_URL}]
+
+
 # ------------------------------------------------------------------ 눈에 띄게
 # 한 달 치를 늘어놓으면 쉰 건이 넘는다. 그 가운데 사무소가 반드시 챙겨야 할
 # 셋 — 통화정책 결정, GDP, 물가 — 은 굵게 뽑아 둔다. 나머지는 배경이다.
@@ -1333,6 +1370,7 @@ def week(today: datetime.date, days: int | None = None,
                ("일본은행", lambda: boj_events(today)),
                ("ECB 행사", lambda: ecb_conference_events(today)),
                ("ECB 금융안정보고서", fsr_events),
+               ("ECB 경제전망보고서", eb_events),
                ("분데스방크 행사", lambda: bbk_conference_events(today)),
                ("Eurostat", lambda: eurostat_events(today, end)),
                ("Destatis", lambda: destatis_events(until=end.isoformat())))
