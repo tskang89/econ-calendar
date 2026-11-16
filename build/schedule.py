@@ -10,6 +10,8 @@
            그대로 읽힌다.
   Destatis 독일 지표 발표일정. 결과 한 덩어리가 c-result 블록이고 그 안에
            제목·기준기간·발표일이 들어 있다.
+  ECB FSR  금융안정보고서 발간일. 회의도 행사도 아니어서 위의 ECB 일정표에
+           없고, 보고서 쪽 소개글 한 문장에만 적혀 있다. 연 두 번이다.
 
 유로지역 지표(HICP·GDP) 발표일은 넣지 못했다. Eurostat 의 release calendar
 페이지가 자바스크립트로 그려지고, 공개 API 에 캘린더 경로가 없다. 독일
@@ -1213,6 +1215,50 @@ def bbk_conference_events(today: datetime.date | None = None) -> list[dict]:
     return out          # 없는 날이 있다. 그것은 고장이 아니다.
 
 
+# ------------------------------------------------- ECB 금융안정보고서
+# 발간물은 회의도 행사도 아니라 위의 두 쪽(이사회 일정·컨퍼런스) 어디에도
+# 없다. ECB 는 금융안정보고서 발간일을 앞선 일정표에 올리지 않고 보고서
+# 쪽 소개글 **한 문장**에만 적어 둔다.
+#
+#   It is published twice a year, with the next release set for 18 November 2026.
+#
+# 자바스크립트 없는 맨 HTML 이라 그 한 줄을 그대로 읽는다. 연 두 번(5월·
+# 11월)이므로 이 자료원이 내놓는 것은 늘 한 줄, 다음 호뿐이다. 그 한 줄이
+# 한 달 구간에 들지 않는 날에는 아무것도 보태지 않는다 — 그것이 정상이고
+# 고장이 아니다.
+#
+# 2026-11-16 에 더했다. 11월 18일 발간이 화면에 없는 것을 소장님이 짚으셨다.
+# 그때까지는 '금융안정'이 든 ECB 컨퍼런스만 올라와 보고서처럼 보였다.
+FSR_URL = ("https://www.ecb.europa.eu/press/financial-stability-publications/"
+           "fsr/html/index.en.html")
+# 'next release set for 18 November 2026'. 'next issue' 로 적을 때도 받는다.
+# 문장을 아예 바꾸면 ScheduleError 로 올라가 화면 경고에 뜬다 — 한 줄이
+# 조용히 빠지는 것보다 낫다. 고칠 곳은 이 정규식 하나다.
+_FSR_DAY = re.compile(r"next\s+(?:release|issue)[^.<]{0,40}?"
+                      r"(\d{1,2})\s+([A-Za-z]+)\s+(\d{4})", re.I)
+
+
+def fsr_events() -> list[dict]:
+    """ECB 금융안정보고서 발간일. 늘 한 줄(다음 호)이다.
+
+    호 이름은 발간 달과 같다 — 2025년 11월 26일 발간이 '2025년 11월호'다.
+    그래서 날짜에서 그대로 만든다.
+    """
+    doc = _get(FSR_URL)
+    m = _FSR_DAY.search(doc)
+    if not m:
+        raise ScheduleError("ECB 금융안정보고서: 발간일을 적은 문장을 "
+                            "읽지 못했다 — 쪽의 문구가 바뀌었다")
+    month = m.group(2).capitalize()
+    if month not in _ES_MONTH:
+        raise ScheduleError(f"ECB 금융안정보고서: 달 이름을 모른다 — {month!r}")
+    day = datetime.date(int(m.group(3)), _ES_MONTH[month], int(m.group(1)))
+    return [{"date": day.isoformat(), "kind": "publication", "area": "EZ",
+             "who": "ECB",
+             "what": f"금융안정보고서 · {day.year}년 {day.month}월호",
+             "url": FSR_URL}]
+
+
 # ------------------------------------------------------------------ 눈에 띄게
 # 한 달 치를 늘어놓으면 쉰 건이 넘는다. 그 가운데 사무소가 반드시 챙겨야 할
 # 셋 — 통화정책 결정, GDP, 물가 — 은 굵게 뽑아 둔다. 나머지는 배경이다.
@@ -1286,6 +1332,7 @@ def week(today: datetime.date, days: int | None = None,
                ("한국은행", lambda: bok_events(today)),
                ("일본은행", lambda: boj_events(today)),
                ("ECB 행사", lambda: ecb_conference_events(today)),
+               ("ECB 금융안정보고서", fsr_events),
                ("분데스방크 행사", lambda: bbk_conference_events(today)),
                ("Eurostat", lambda: eurostat_events(today, end)),
                ("Destatis", lambda: destatis_events(until=end.isoformat())))

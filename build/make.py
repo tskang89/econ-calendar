@@ -32,8 +32,11 @@ OUTPUT = ROOT / "index.html"
 WEEKDAY = "월화수목금토일"
 DAYS = 7
 
+# 'publication' 은 발간물이다. 지표가 아니므로 '지표'로 달면 안 되고,
+# 참석하는 자리가 아니므로 '행사'도 아니다. 꼴은 지표와 같다 — 쪽의 CSS 는
+# policy·event·major 만 따로 다루므로 새 종류는 기본 꼴로 그려진다.
 TAG = {"policy": "통화정책", "meeting": "회의", "release": "지표",
-       "event": "행사"}
+       "event": "행사", "publication": "보고서"}
 
 
 def log(msg: str = "") -> None:
@@ -86,8 +89,8 @@ def render_days(events: list[dict], today: datetime.date) -> str:
 NOTE = """<b>자료</b> 아래 열 곳은 공식 일정표에서 날마다 새로 받아 옵니다 —
 ECB(이사회·통화정책회의), 미국 연준(FOMC), 영란은행(MPC), 한국은행(금통위),
 일본은행(금융정책결정회의), 스위스 SNB·체코 ČNB·튀르키예 TCMB(통화정책 결정),
-Eurostat(유로지역 주요 지표), 독일 통계청. ECB·분데스방크의 세미나·컨퍼런스도
-함께 받아 옵니다. 폴란드 NBP 만 자동 수집이 막혀 있어(봇 차단) 공식 일정표에서
+Eurostat(유로지역 주요 지표), 독일 통계청. ECB·분데스방크의 세미나·컨퍼런스와
+ECB 금융안정보고서 발간일도 함께 받아 옵니다. 폴란드 NBP 만 자동 수집이 막혀 있어(봇 차단) 공식 일정표에서
 확인한 날짜를 저장소에 적어 두고 씁니다 — 결정일은 한 해에 한 번 공표되고
 좀처럼 바뀌지 않습니다. 기관 이름을 누르면 공식 일정표로 갑니다.
 <br><br>
